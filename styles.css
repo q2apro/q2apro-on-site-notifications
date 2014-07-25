@@ -1,0 +1,137 @@
+.qa-nav-user {
+	position:relative;
+	white-space:normal;
+}
+.nfyWrap {
+    position: absolute;
+    top: 31px;
+    left: -80px;
+    width: 460px;
+    background: #fefefe;
+    padding: 0;
+    font-family: Arial,Helvetica,sans-serif;
+    -moz-box-shadow: 4px 4px 7px #ababab;
+    -webkit-box-shadow: 4px 4px 7px #ababab;
+    box-shadow: 4px 4px 7px #ababab;
+    z-index: 999;
+}
+.nfyWrap .nfyTop {
+    font-size: 11px;
+    line-height: 12px;
+    padding: 5px;
+    color: #333;
+    background: #eaeaea;
+    border: 1px solid #CCC;
+    border-radius: 3px 3px 0 0;
+}
+.nfyWrap .nfyContainer {
+	width: 100%;
+    overflow-y: auto;
+    padding: 0;
+    height: 240px;
+    border-left: 1px solid #CCC;
+    border-right: 1px solid #CCC;
+}
+.nfyWrap .nfyFooter {
+    padding: 5px;
+    background: #fefefe;
+    text-align: right;
+    font-size: 10px;
+}
+.nfyWrap .nfyFooter a {
+    color: #aaa;
+    cursor: pointer;
+}
+.nfyWrap .itemBox,.nfyWrap .itemBox-new {
+	width:425px;
+    border-bottom: 1px solid #f3f3f3;
+    float: left;
+    margin: 0 3px 0 3px;
+    padding: 6px 4px 3px 4px;
+    border-bottom: 1px dashed #CCC;
+}
+.nfyWrap .itemBox-new {
+    background: #FE8;
+}
+.nfyWrap .itemBox:hover {
+    background: #EEE;
+}
+.nfyWrap .itemBoxNew {
+    background-color: #ffffe2;
+}
+.nfyWrap .nfyItemLine {
+    float: left;
+    width: 390px;
+    font-size: 11px;
+    color: #555;
+}
+.nfyWrap .nfyItemLine a {
+    font-size: 11px;
+    color: #44A;
+    text-decoration: none;
+    font-weight: bold;
+}
+.nfyWrap .nfyItemLine p {
+    margin: 0 0 2px 0;
+    line-height: 1.2;
+}
+.nfyWrap .siteLink {
+    font-size: 9px !important;
+    text-decoration: none;
+    font-weight: normal !important;
+    margin-bottom: 4px;
+    display: inline-block;
+}
+.nfyWrap .nfyItemLine a:hover {
+    color: #55F;
+}
+.nfyIcon {
+    display: block;
+    float: left;
+    text-decoration: none;
+    margin: 0 6px 2px 2px;
+}
+.nfyIcon img {
+    width: 16px;
+    height: 16px;
+    border: 0;
+}
+.nfyTime {
+    color: #888;
+}
+.qa-history-event-nill {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    overflow: hidden;
+    border: 0;
+    border-radius: 10px;
+    -moz-box-shadow: 0 1px 1px #999;
+    -webkit-box-shadow: 0 1px 1px #999;
+    box-shadow: 0 1px 1px #999;
+    text-align: center;
+    background-color: #999;
+    font-style: italic;
+    font-weight: bold;
+    color: #FFF;
+    cursor: pointer;
+}
+.qa-history-new-event-link {
+	position: relative;
+}
+.ntfy-event-new,.ntfy-event-nill {
+    background-color: #FF5;
+    border: 1px solid #EEEE00;
+    color: #000;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 75%;
+    font-weight: bold;
+    padding: 2px 3px;
+    vertical-align: top;
+}
+.ntfy-read,.ntfy-event-nill {
+    background: #CCC;
+    border: 1px solid #CCC;
+    color: #555;
+}
