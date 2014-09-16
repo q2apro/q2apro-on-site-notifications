@@ -41,10 +41,10 @@
 			qa_html_theme_base::head_script();
 			if(qa_opt('q2apro_onsitenotifications_enabled')) {
 				$this->output('<script type="text/javascript">
-						var eventnotifyAjaxURL = "'.qa_path_html('eventnotify').'";
+						var eventnotifyAjaxURL = "'.qa_path('eventnotify').'";
 					</script>');  
-				$this->output('<script type="text/javascript" src="'. qa_opt('site_url') . $this->plugin_url_onsitenotifications .'script.js"></script>');
-				$this->output('<link rel="stylesheet" type="text/css" href="'. qa_opt('site_url') . $this->plugin_url_onsitenotifications .'styles.css">');
+				$this->output('<script type="text/javascript" src="'.qa_path($this->plugin_url_onsitenotifications).'script.js"></script>');
+				$this->output('<link rel="stylesheet" type="text/css" href="'.qa_path($this->plugin_url_onsitenotifications).'styles.css">');
 			}
 		}
 		

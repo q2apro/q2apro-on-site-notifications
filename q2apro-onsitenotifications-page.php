@@ -30,8 +30,10 @@
 		
 		function load_module($directory, $urltoroot)
 		{
-			$this->directory=$directory;
-			$this->urltoroot=$urltoroot;
+			$this->directory = $directory;
+			// $urltoroot is ./qa-plugin/q2apro-on-site-notifications/
+			// remove "./" from beginning to be able to use path for qa_path()
+			$this->urltoroot = preg_replace('/^.\//', '', $urltoroot);
 		}
 		
 		// for display in admin interface under admin/pages
@@ -182,7 +184,7 @@
 							}
 							
 							$anchor = qa_anchor((strpos($event['event'],'a_') === 0 || strpos($event['event'],'in_a_') === 0?'A':'C'), $params['postid']);
-							$activity_url = qa_path_html(qa_q_request($parent['postid'], $parent['title']), null, qa_opt('site_url'),null,$anchor);
+							$activity_url = qa_path(qa_q_request($parent['postid'], $parent['title']), null, null, null, $anchor);
 							$linkTitle = $parent['title'];
 							$link = '<a target="_blank" href="'.$activity_url.'">'.$parent['title'].'</a>';
 						}
@@ -192,8 +194,8 @@
 							}
 							if($params['title'] !== null) {
 								$qTitle = qa_db_read_one_value( qa_db_query_sub("SELECT title FROM `^posts` WHERE `postid` = ".$params['postid']." LIMIT 1"), true );
-								if(!isset($qTitle)) $qTitle = ''; // (isset($getQtitle[0])) ? $getQtitle[0] : "";
-								$activity_url = qa_path_html(qa_q_request($params['postid'], $qTitle), null, qa_opt('site_url'), null, null);
+								if(!isset($qTitle)) $qTitle = '';
+								$activity_url = qa_path(qa_q_request($params['postid'], $qTitle), null, null, null, null);
 								$linkTitle = $qTitle;
 								$link = '<a target="_blank" href="'.$activity_url.'">'.$qTitle.'</a>';
 							}
@@ -209,23 +211,23 @@
 						$itemIcon = '';
 						if($type=='in_c_question' || $type=='in_c_answer' || $type=='in_c_comment') { // added in_c_comment
 							$eventName = qa_lang('q2apro_onsitenotifications_lang/in_comment');
-							$itemIcon = '<img src="'.qa_opt('site_url').$this->urltoroot.'comment-icon.png" />';
+							$itemIcon = '<img src="'.qa_path_absolute($this->urltoroot).'comment-icon.png" />';
 						}
 						else if($type=='in_q_vote_up' || $type=='in_a_vote_up') {
 							$eventName = qa_lang('q2apro_onsitenotifications_lang/in_upvote');
-							$itemIcon = '<img src="'.qa_opt('site_url').$this->urltoroot.'vote-up-mini.png" />';
+							$itemIcon = '<img src="'.qa_path_absolute($this->urltoroot).'vote-up-mini.png" />';
 						}
 						else if($type=='in_q_vote_down' || $type=='in_a_vote_down') {
 							$eventName = qa_lang('q2apro_onsitenotifications_lang/in_downvote');
-							$itemIcon = '<img src="'.qa_opt('site_url').$this->urltoroot.'vote-down-mini.png" />';
+							$itemIcon = '<img src="'.qa_path_absolute($this->urltoroot).'vote-down-mini.png" />';
 						}
 						else if($type=='in_a_question') {
 							$eventName = qa_lang('q2apro_onsitenotifications_lang/in_answer');
-							$itemIcon = '<img src="'.qa_opt('site_url').$this->urltoroot.'answer-icon.png" />';
+							$itemIcon = '<img src="'.qa_path_absolute($this->urltoroot).'answer-icon.png" />';
 						}
 						else if($type=='in_a_select') {
 							$eventName = qa_lang('q2apro_onsitenotifications_lang/in_bestanswer');
-							$itemIcon = '<img src="'.qa_opt('site_url').$this->urltoroot.'best_answer_mini.png" />';
+							$itemIcon = '<img src="'.qa_path_absolute($this->urltoroot).'best_answer_mini.png" />';
 						}
 						else {
 							// ignore other events such as in_c_flag
@@ -261,7 +263,7 @@
 					</div>
 					';
 					
-					header('Access-Control-Allow-Origin: '.qa_opt('site_url'));
+					header('Access-Control-Allow-Origin: '.qa_path(null));
 					echo $notifyBoxEvents;
 					
 					// update database entry so that all user notifications are seen as read
