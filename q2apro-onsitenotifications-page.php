@@ -184,7 +184,7 @@
 							}
 							
 							$anchor = qa_anchor((strpos($event['event'],'a_') === 0 || strpos($event['event'],'in_a_') === 0?'A':'C'), $params['postid']);
-							$activity_url = qa_path(qa_q_request($parent['postid'], $parent['title']), null, null, null, $anchor);
+							$activity_url = qa_path_absolute(qa_q_request($parent['postid'], $parent['title']), null, $anchor);
 							$linkTitle = $parent['title'];
 							$link = '<a target="_blank" href="'.$activity_url.'">'.$parent['title'].'</a>';
 						}
@@ -195,7 +195,7 @@
 							if($params['title'] !== null) {
 								$qTitle = qa_db_read_one_value( qa_db_query_sub("SELECT title FROM `^posts` WHERE `postid` = ".$params['postid']." LIMIT 1"), true );
 								if(!isset($qTitle)) $qTitle = '';
-								$activity_url = qa_path(qa_q_request($params['postid'], $qTitle), null, null, null, null);
+								$activity_url = qa_path_absolute(qa_q_request($params['postid'], $qTitle), null, null);
 								$linkTitle = $qTitle;
 								$link = '<a target="_blank" href="'.$activity_url.'">'.$qTitle.'</a>';
 							}
