@@ -24,7 +24,7 @@ Before you [post a bug](https://github.com/q2apro/q2apro-on-site-notifications/i
 	`RewriteCond %{HTTP_HOST} .`  
 	`RewriteCond %{HTTP_HOST} !^www\.q2apro\.com [NC]`  
 	`RewriteRule (.*) http://www.q2apro.com/$1 [R=301,L]`  
-   
+
 13. Do you use a custom theme? Maybe this is changing the layout and breaking the plugin. We cannot help you for free with that (see note below<sup>1</sup>).
 
 
