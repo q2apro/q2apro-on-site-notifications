@@ -18,7 +18,14 @@ Before you [post a bug](https://github.com/q2apro/q2apro-on-site-notifications/i
 8. Check your database table `qa_options` if you find the options "q2apro_onsitenotifications_enabled", "q2apro_onsitenotifications_nill", "q2apro_onsitenotifications_maxage", "q2apro_onsitenotifications_maxevshow" with values.
 9. Check your HTML source if the two files "script.js" ans "styles.css" are correctly linked (search for `qa-plugin/q2apro-on-site-notifications/`).
 10. Is there the table `qa_usermeta` in your database?
-11. Do you use a custom theme? Maybe this is changing the layout and breaking the plugin. We cannot help you with that (see note below<sup>1</sup>).
+11. Check that the field `site_url` in your database table `qa_options` matches all your URLs.
+12. Rewrite all your domains to one domain (e.g. q2apro.com → www.q2apro.com). To do so, use .htaccess. Next is an example how to rewrite all *domains/xyz* to *www.q2apro.com/xyz* (of course, replace *q2apro.com* with your domain name that matches the field `site_url`):
+ 
+	`RewriteCond %{HTTP_HOST} .`  
+	`RewriteCond %{HTTP_HOST} !^www\.q2apro\.com [NC]`  
+	`RewriteRule (.*) http://www.q2apro.com/$1 [R=301,L]`  
+   
+13. Do you use a custom theme? Maybe this is changing the layout and breaking the plugin. We cannot help you for free with that (see note below<sup>1</sup>).
 
 
 If these steps did not solve your problem and if your issue has not been reported already, then post your detailed bug report. 
@@ -42,4 +49,4 @@ If you wish to implement a feature, you should start a discussion in the issue l
 
 <br />
 
-<sup>1</sup>Note: If you use a custom theme of a third party and the on-site-notifications-plugin does not work with this theme, we won't help you for free as we don't have the time to dig into foreign codes. Please contact the developer of the custom theme instead.
+<sup>1</sup>Note: If you use a custom theme of a third party and the on-site-notifications-plugin does not work with this theme, we cannot help you for free as we don't have the time to dig into foreign codes. Please contact the developer of the custom theme instead.
