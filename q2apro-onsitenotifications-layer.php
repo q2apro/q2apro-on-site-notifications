@@ -79,20 +79,20 @@
 					)
 				);
 				// q2apro notification tooltip
-				$tooltip = qa_lang('q2apro_onsitenotifications_lang/show_notifications');
-				if($eventcount) {
-					$tooltip = $eventcount.' '.qa_lang('q2apro_onsitenotifications_lang/x_notifications');
-					// only one event
-					if($eventcount==1) {
+				if ($eventcount > 0) {
+					if ($eventcount == 1) {  // only one event
 						$tooltip = qa_lang('q2apro_onsitenotifications_lang/one_notification');
+					} else {
+						$tooltip = $eventcount.' '.qa_lang('q2apro_onsitenotifications_lang/x_notifications');
 					}
-					// add notify bubble to user navigation highlighted
-					$this->content['loggedin']['suffix'] = @$this->content['loggedin']['suffix'].' <a class="qa-history-new-event-link" title="'.$tooltip.'"><span class="notifybub ntfy-event-new">'.$eventcount.'</span></a>';
+					$classSuffix = 'new';  // add notify bubble to user navigation highlighted
+				} else {
+					$tooltip = qa_lang('q2apro_onsitenotifications_lang/show_notifications');
+					$eventcount = qa_opt('q2apro_onsitenotifications_nill');
+					$classSuffix = 'nill';  // add notify bubble to user navigation
 				}
-				else {
-					// add notify bubble to user navigation
-					$this->content['loggedin']['suffix'] = @$this->content['loggedin']['suffix'].' <a class="qa-history-new-event-link" title="'.$tooltip.'"><span class="notifybub ntfy-event-nill">'.qa_opt('q2apro_onsitenotifications_nill').'</span></a>';
-				}
+				$html = '<a class="qa-history-new-event-link" title="'.$tooltip.'"><span class="notifybub ntfy-event-'. $classSuffix.'">'.$eventcount.'</span></a>';
+				$this->content['loggedin']['suffix'] = @$this->content['loggedin']['suffix']. ' ' . $html;
 			}
 			
 			qa_html_theme_base::doctype();
