@@ -9,12 +9,13 @@ Facebook-like / Stackoverflow-like notifications on your [Question2Answer](http:
 
 ## Features ##
 
-- easy to use for all your users
+- informs user about the following events: incoming answer, incoming comment, question was up- or downvoted, answer was up- or downvoted, answer got selected as best, incoming private message
 - yellow notify bubble on top next to the username
+- easy to use for all your users
 - notification box shows new events and also events of last 100 days (specify days in plugin options)
 - notifies on: incoming answer, incoming comment, best answers and upvotes
 - lightweight plugin that does not need any extra server resources
-- available languages: en, fr, de
+- available languages: de, en, fr, lt
 
 Do something good for your users and improve their usability experience in your forum!
 

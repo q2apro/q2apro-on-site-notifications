@@ -109,6 +109,9 @@
 .nicon.nbestanswer {
 	background:url(icons.png) no-repeat 0 -64px;
 }
+.nicon.nmessage {
+	background:url(icons.png) no-repeat 0 -80px;
+}
 .nfyWhat {
 	padding-top:3px;
 }
@@ -144,9 +147,9 @@
     color: #000;
     border-radius: 3px;
     cursor: pointer;
-    font-size: 75%;
-    font-weight: bold;
-    padding: 2px 3px;
+    font-size: 11px;
+	font-weight: bold;
+    padding: 3px 4px;
     vertical-align: top;
 }
 .ntfy-read, .ntfy-event-nill {
@@ -161,6 +164,10 @@
 }
 
 /* snow flat theme */
+.qam-account-items-wrapper #osnbox {
+	float: left;
+    margin-left:-30px;
+}
 .qam-account-items-wrapper .ntfy-event-new, .qam-account-items-wrapper .ntfy-event-nill {
 	padding: 4px 7px;
 }
@@ -174,10 +181,4 @@
 .qam-account-items-wrapper .nfyWrap, .qam-account-items-wrapper .nfyWrap .nfyContainer p {
 	/* disable snow flat's global border-box */
 	box-sizing: content-box !important;
-}
-.qam-account-items-wrapper #osnbox {
-	position: absolute;
-	display: inline-block;
-	top: 0;
-	right: 66px;
 }

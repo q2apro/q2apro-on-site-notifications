@@ -8,7 +8,7 @@
 	Plugin Author: q2apro.com
 	Plugin Author URI: http://www.q2apro.com/
 	Plugin License: GPLv3
-	Plugin Minimum Question2Answer Version: 1.5
+	Plugin Minimum Question2Answer Version: → see qa-plugin.php
 	Plugin Update Check URI: https://raw.githubusercontent.com/q2apro/q2apro-on-site-notifications/master/qa-plugin.php
 	
 	This program is free software. You can redistribute and modify it 
@@ -153,6 +153,14 @@
 				'value' => qa_opt('q2apro_onsitenotifications_newwindow'),
 			);
 
+			$fields[] = array(
+				'type' => 'static',
+				'note' => '<span style="font-size:12px;color:#789;">'.strtr( qa_lang('q2apro_onsitenotifications_lang/contact'), array( 
+							'^1' => '<a target="_blank" href="http://www.q2apro.com/plugins/on-site-notifications">',
+							'^2' => '</a>'
+						  )).'</span>',
+			);
+			
 			return array(           
 				'ok' => ($ok && !isset($error)) ? $ok : null,
 				'fields' => $fields,

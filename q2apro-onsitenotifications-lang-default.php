@@ -8,7 +8,7 @@
 	Plugin Author: q2apro.com
 	Plugin Author URI: http://www.q2apro.com/
 	Plugin License: GPLv3
-	Plugin Minimum Question2Answer Version: 1.5
+	Plugin Minimum Question2Answer Version: → see qa-plugin.php
 	Plugin Update Check URI: https://raw.githubusercontent.com/q2apro/q2apro-on-site-notifications/master/qa-plugin.php
 	
 	This program is free software. You can redistribute and modify it 
@@ -46,6 +46,8 @@
 		'in_bestanswer' => 'Best Answer for',
 		'in_upvote' => 'Upvote for',
 		'in_downvote' => 'Downvote for',
+		'you_received' => 'You received a',
+		'message_from' => 'private message from',
 	);
 
 

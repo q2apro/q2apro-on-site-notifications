@@ -8,7 +8,7 @@
 	Plugin Author: q2apro.com
 	Plugin Author URI: http://www.q2apro.com/
 	Plugin License: GPLv3
-	Plugin Minimum Question2Answer Version: 1.5
+	Plugin Minimum Question2Answer Version: → see qa-plugin.php
 	Plugin Update Check URI: https://raw.githubusercontent.com/q2apro/q2apro-on-site-notifications/master/qa-plugin.php
 	
 	This program is free software. You can redistribute and modify it 
@@ -35,6 +35,9 @@
 			
 			if(!qa_opt('event_logger_to_database')) return;
 			
+			// needed for function qa_post_userid_to_handle()
+			require_once QA_INCLUDE_DIR.'qa-app-posts.php';
+
 			$twoway = array(
 				'a_select',
 				'q_vote_up',
@@ -77,15 +80,17 @@
 				}
 				
 				if($uid != $userid) {
-					$ohandle = $this->getHandleFromId($uid);
+					$ohandle = qa_post_userid_to_handle($uid);
 					
 					$oevent = 'in_'.$event;
 					
 					$paramstring='';
 					
-					foreach ($params as $key => $value)
-						$paramstring.=(strlen($paramstring) ? "\t" : '').$key.'='.$this->value_to_text($value);
+					foreach ($params as $key => $value) {
+						$paramstring.=(strlen($paramstring) ? "\t" : '').$key.'='.$this->value_to_text($value);						
+					}
 					
+					// write in_ events to qa_eventlog
 					qa_db_query_sub(
 						'INSERT INTO ^eventlog (datetime, ipaddress, userid, handle, cookieid, event, params) '.
 						'VALUES (NOW(), $, $, $, #, $, $)',
@@ -115,7 +120,7 @@
 				// if QA poster is not the same as commenter
 				if($pid != $userid) {
 			
-					$ohandle = $this->getHandleFromId($pid);
+					$ohandle = qa_post_userid_to_handle($pid);
 					
 					switch($event) {
 						case 'a_post':
@@ -157,13 +162,13 @@
 					while( ($comment = qa_db_read_one_assoc($precCommentsQuery,true)) !== null ) {
 						$userid_CommThr = $comment['userid']; // unique
 						
-						// dont inform user that comments, and dont inform user that comments on his own question/answer
+						// don't inform user that comments, and don't inform user that comments on his own question/answer
 						if($userid_CommThr != $uid && $userid_CommThr != $pid) {
-							$ohandle = $this->getHandleFromId($userid_CommThr);
+							$ohandle = qa_post_userid_to_handle($userid_CommThr);
 
-							$paramstring='';
+							$paramstring = '';
 							foreach ($params as $key => $value) {
-								$paramstring.=(strlen($paramstring) ? "\t" : '').$key.'='.$this->value_to_text($value);
+								$paramstring .= (strlen($paramstring) ? "\t" : '').$key.'='.$this->value_to_text($value);
 							}
 							
 							qa_db_query_sub(
@@ -176,7 +181,7 @@
 				} // end in_c_comment
 				
 			} // end in_array
-		}
+		} // end process_event
 
 
 		// worker functions
@@ -191,21 +196,7 @@
 			return strtr($text, "\t\n\r", '   ');
 		}
 		
-		function getHandleFromId($userid) {
-			require_once QA_INCLUDE_DIR.'qa-app-users.php';
-			
-			if (QA_FINAL_EXTERNAL_USERS) {
-				$publictohandle=qa_get_public_from_userids(array($userid));
-				$handle=@$publictohandle[$userid];
-				
-			} 
-			else {
-				$user = qa_db_single_select(qa_db_user_account_selectspec($userid, true));
-				$handle = @$user['handle'];
-			}
-			return $handle;
-		}
-	}
+	} // end class
 
 	
 /*

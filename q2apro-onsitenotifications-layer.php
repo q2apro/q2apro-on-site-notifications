@@ -8,7 +8,7 @@
 	Plugin Author: q2apro.com
 	Plugin Author URI: http://www.q2apro.com/
 	Plugin License: GPLv3
-	Plugin Minimum Question2Answer Version: 1.5
+	Plugin Minimum Question2Answer Version: → see qa-plugin.php
 	Plugin Update Check URI: https://raw.githubusercontent.com/q2apro/q2apro-on-site-notifications/master/qa-plugin.php
 	
 	This program is free software. You can redistribute and modify it 
@@ -34,31 +34,45 @@
 				$this->output('<script type="text/javascript" src="'.QA_HTML_THEME_LAYER_URLTOROOT.'script.js"></script>');
 				$this->output('<link rel="stylesheet" type="text/css" href="'.QA_HTML_THEME_LAYER_URLTOROOT.'styles.css">');
 				
-				// hack for snow flat theme to show the notification icon outside the user's drop down
+				// hack for snow flat theme (q2a v1.7) to show the notification icon outside the user's drop down
 				if(qa_opt('site_theme')=='SnowFlat') {
 					$this->output('
 					<script type="text/javascript">
 						$(document).ready(function(){
-							$("#osnbox").detach().appendTo(".qam-account-items-wrapper");
+							// $("#osnbox").detach().appendTo(".qam-account-items-wrapper");
+							var elem = $("#osnbox").detach();
+							$(".qam-account-items-wrapper").prepend(elem);
 						});
 					</script>
 					');
 				}
+				
+				// hack for snow theme (q2a v1.6) to position the notification box more to the right
+				if(qa_opt('site_theme')=='Snow') {
+					$this->output('
+					<style type="text/css">
+						#nfyWrap {
+							left:-100px;
+						}
+					</style>
+					');
+				}
 			
-			}
-		}
+			} // end enabled
+		} // end head_script
 		
 		function doctype() {
 			/* The following code originates from q2a plugin "History" by NoahY and has been modified by q2apro.com
 			 * It is licensed under GPLv3 http://www.gnu.org/licenses/gpl.html
 			 * Link to plugin: https://github.com/NoahY/q2a-history
 			 */
-			if(qa_opt('q2apro_onsitenotifications_enabled') && qa_get_logged_in_userid()) {
+			$userid = qa_get_logged_in_userid();
+			if(qa_opt('q2apro_onsitenotifications_enabled') && $userid) {
 
 				$last_visit = qa_db_read_one_value(
 					qa_db_query_sub(
 						'SELECT UNIX_TIMESTAMP(meta_value) FROM ^usermeta WHERE user_id=# AND meta_key=$',
-						qa_get_logged_in_userid(), 'visited_profile'
+						$userid, 'visited_profile'
 					),
 					true
 				);
@@ -72,12 +86,17 @@
 				$eventcount = qa_db_read_one_value(
 					qa_db_query_sub(
 						'SELECT COUNT(event) FROM ^eventlog 
-								WHERE userid=# AND DATE_SUB(CURDATE(),INTERVAL # DAY) <= datetime 
-								AND FROM_UNIXTIME(#) <= datetime 
-								AND event LIKE "in_%"',
-								qa_get_logged_in_userid(), 
+								WHERE FROM_UNIXTIME(#) <= datetime 
+								AND DATE_SUB(CURDATE(),INTERVAL # DAY) <= datetime 
+								AND (
+								(userid=# AND event LIKE "in_%")
+								OR (event LIKE "u_message" AND params LIKE "userid=#\t%")
+								)
+								',
+								$last_visit,
 								qa_opt('q2apro_onsitenotifications_maxage'), 
-								$last_visit
+								$userid, 
+								$userid
 					)
 				);
 				
