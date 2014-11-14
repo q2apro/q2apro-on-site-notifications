@@ -36,16 +36,16 @@
 		'admin_newwindow' => 'Open links from notification box in a new browser tab.', // extra
 		
 		// plugin
-		'my_notifications' => 'My notifications',
-		'show_notifications' => 'Show notifications',
-		'one_notification' => '1 new notification',
-		'x_notifications' => 'new notifications',
-		'close' => 'close',
-		'in_answer' => 'Answer to',
-		'in_comment' => 'Comment to',
-		'in_bestanswer' => 'Best Answer for',
-		'in_upvote' => 'Upvote for',
-		'in_downvote' => 'Downvote for',
+		'my_notifications' => 'Mano pranešimai',
+		'show_notifications' => 'Parodik pranešimai',
+		'one_notification' => '1 naujas pranešimas',
+		'x_notifications' => 'nauji pranešimai',
+		'close' => 'uždaryti',
+		'in_answer' => 'Atsakymas pas',
+		'in_comment' => 'Komentaras į',
+		'in_bestanswer' => 'Geriausias atsakymas pas',
+		'in_upvote' => 'Papildomas taškas už',
+		'in_downvote' => 'Minus taškas už',
 	);
 
 

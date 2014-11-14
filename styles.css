@@ -2,16 +2,18 @@
 	position:relative;
 	white-space:normal;
 }
+#osnbox {
+	position:relative;
+	display:inline-block;
+}
 .nfyWrap {
     position: absolute;
     top: 31px;
-    left: -80px;
+    left: -280px;
     width: 460px;
     background: #fefefe;
     padding: 0;
     font-family: Arial,Helvetica,sans-serif;
-    -moz-box-shadow: 4px 4px 7px #ababab;
-    -webkit-box-shadow: 4px 4px 7px #ababab;
     box-shadow: 4px 4px 7px #ababab;
     z-index: 999;
 }
@@ -42,12 +44,12 @@
     color: #aaa;
     cursor: pointer;
 }
-.nfyWrap .itemBox,.nfyWrap .itemBox-new {
-	width:425px;
+.nfyWrap .itemBox, .nfyWrap .itemBox-new {
+	width: 100%;
     border-bottom: 1px solid #f3f3f3;
     float: left;
-    margin: 0 3px 0 3px;
-    padding: 6px 4px 3px 4px;
+    margin: 0;
+    padding: 3px 0px 12px 0;
     border-bottom: 1px dashed #CCC;
 }
 .nfyWrap .itemBox-new {
@@ -60,18 +62,18 @@
     background-color: #ffffe2;
 }
 .nfyWrap .nfyItemLine {
-    float: left;
-    width: 390px;
-    font-size: 11px;
+	display:inline-block;
+    width: 410px;
+    font-size: 12px;
     color: #555;
 }
 .nfyWrap .nfyItemLine a {
-    font-size: 11px;
+    font-size: 12px;
     color: #44A;
     text-decoration: none;
-    font-weight: bold;
 }
 .nfyWrap .nfyItemLine p {
+	display:inline-block;
     margin: 0 0 2px 0;
     line-height: 1.2;
 }
@@ -85,19 +87,34 @@
 .nfyWrap .nfyItemLine a:hover {
     color: #55F;
 }
-.nfyIcon {
-    display: block;
-    float: left;
-    text-decoration: none;
-    margin: 0 6px 2px 2px;
-}
-.nfyIcon img {
+.nicon {
+	display: inline-block;
     width: 16px;
     height: 16px;
-    border: 0;
+	margin: 4px 4px 0 5px;
+	vertical-align: top;
+}
+.nicon.nanswer {
+	background:url(icons.png) no-repeat 0 0;
+}
+.nicon.ncomment {
+	background:url(icons.png) no-repeat 0 -16px;
+}
+.nicon.nvoteup {
+	background:url(icons.png) no-repeat 0 -32px;
+}
+.nicon.nvotedown {
+	background:url(icons.png) no-repeat 0 -48px;
+}
+.nicon.nbestanswer {
+	background:url(icons.png) no-repeat 0 -64px;
+}
+.nfyWhat {
+	padding-top:3px;
 }
 .nfyTime {
     color: #888;
+	display:block !important;
 }
 .qa-history-event-nill {
     display: inline-block;
@@ -106,8 +123,6 @@
     overflow: hidden;
     border: 0;
     border-radius: 10px;
-    -moz-box-shadow: 0 1px 1px #999;
-    -webkit-box-shadow: 0 1px 1px #999;
     box-shadow: 0 1px 1px #999;
     text-align: center;
     background-color: #999;
@@ -116,22 +131,53 @@
     color: #FFF;
     cursor: pointer;
 }
-.qa-history-new-event-link {
+.osn-new-events-link {
 	position: relative;
 }
-.ntfy-event-new,.ntfy-event-nill {
+.osn-new-events-link:hover {
+	text-decoration:none !important;
+}
+/* notifybub (N) */
+.ntfy-event-new, .ntfy-event-nill {
     background-color: #FF5;
     border: 1px solid #EEEE00;
     color: #000;
-    border-radius: 4px;
+    border-radius: 3px;
     cursor: pointer;
     font-size: 75%;
     font-weight: bold;
     padding: 2px 3px;
     vertical-align: top;
 }
-.ntfy-read,.ntfy-event-nill {
+.ntfy-read, .ntfy-event-nill {
     background: #CCC;
     border: 1px solid #CCC;
     color: #555;
+}
+#nfyReadClose {
+	float:right;
+	cursor:pointer;
+	color:#333;
+}
+
+/* snow flat theme */
+.qam-account-items-wrapper .ntfy-event-new, .qam-account-items-wrapper .ntfy-event-nill {
+	padding: 4px 7px;
+}
+.qam-account-items-wrapper .nfyWrap {
+    left:-437px;
+	top:30px;
+}
+.qam-account-items-wrapper .nfyWrap .nfyContainer {
+	border:0;
+}
+.qam-account-items-wrapper .nfyWrap, .qam-account-items-wrapper .nfyWrap .nfyContainer p {
+	/* disable snow flat's global border-box */
+	box-sizing: content-box !important;
+}
+.qam-account-items-wrapper #osnbox {
+	position: absolute;
+	display: inline-block;
+	top: 0;
+	right: 66px;
 }

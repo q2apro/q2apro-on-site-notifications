@@ -3,8 +3,8 @@
 	Plugin Name: On-Site-Notifications
 	Plugin URI: http://www.q2apro.com/plugins/on-site-notifications
 	Plugin Description: Facebook-like / Stackoverflow-like notifications on your question2answer forum that can replace all email-notifications.
-	Plugin Version: 1.0
-	Plugin Date: 2014-03-29
+	Plugin Version: → see qa-plugin.php
+	Plugin Date: → see qa-plugin.php
 	Plugin Author: q2apro.com
 	Plugin Author URI: http://www.q2apro.com/
 	Plugin License: GPLv3
@@ -33,6 +33,18 @@
 					</script>');  
 				$this->output('<script type="text/javascript" src="'.QA_HTML_THEME_LAYER_URLTOROOT.'script.js"></script>');
 				$this->output('<link rel="stylesheet" type="text/css" href="'.QA_HTML_THEME_LAYER_URLTOROOT.'styles.css">');
+				
+				// hack for snow flat theme to show the notification icon outside the user's drop down
+				if(qa_opt('site_theme')=='SnowFlat') {
+					$this->output('
+					<script type="text/javascript">
+						$(document).ready(function(){
+							$("#osnbox").detach().appendTo(".qam-account-items-wrapper");
+						});
+					</script>
+					');
+				}
+			
 			}
 		}
 		
@@ -42,17 +54,6 @@
 			 * Link to plugin: https://github.com/NoahY/q2a-history
 			 */
 			if(qa_opt('q2apro_onsitenotifications_enabled') && qa_get_logged_in_userid()) {
-
-				qa_db_query_sub(
-					'CREATE TABLE IF NOT EXISTS ^usermeta (
-					meta_id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-					user_id bigint(20) unsigned NOT NULL,
-					meta_key varchar(255) DEFAULT NULL,
-					meta_value longtext,
-					PRIMARY KEY (meta_id),
-					UNIQUE (user_id,meta_key)
-					) ENGINE=MyISAM  DEFAULT CHARSET=utf8'
-				);		
 
 				$last_visit = qa_db_read_one_value(
 					qa_db_query_sub(
@@ -66,6 +67,7 @@
 				if(is_null($last_visit)) {
 					$last_visit = '1981-03-31 06:25:00';
 				}
+				
 				// select and count all in_eventcount that are newer as last visit
 				$eventcount = qa_db_read_one_value(
 					qa_db_query_sub(
@@ -78,6 +80,7 @@
 								$last_visit
 					)
 				);
+				
 				// q2apro notification tooltip
 				if ($eventcount > 0) {
 					if ($eventcount == 1) {  // only one event
@@ -86,12 +89,18 @@
 						$tooltip = $eventcount.' '.qa_lang('q2apro_onsitenotifications_lang/x_notifications');
 					}
 					$classSuffix = 'new';  // add notify bubble to user navigation highlighted
-				} else {
+				}
+				else {
 					$tooltip = qa_lang('q2apro_onsitenotifications_lang/show_notifications');
 					$eventcount = qa_opt('q2apro_onsitenotifications_nill');
 					$classSuffix = 'nill';  // add notify bubble to user navigation
 				}
-				$html = '<a class="qa-history-new-event-link" title="'.$tooltip.'"><span class="notifybub ntfy-event-'. $classSuffix.'">'.$eventcount.'</span></a>';
+				
+				$html = '<div id="osnbox">
+							<a class="osn-new-events-link" title="'.$tooltip.'"><span class="notifybub ntfy-event-'. $classSuffix.'">'.$eventcount.'</span></a>
+						</div>';
+				
+				// add to user panel
 				$this->content['loggedin']['suffix'] = @$this->content['loggedin']['suffix']. ' ' . $html;
 			}
 			
@@ -100,7 +109,6 @@
 
 	} // end qa_html_theme_layer
 	
-
 /*
 	Omit PHP closing tag to help avoid accidental output
 */

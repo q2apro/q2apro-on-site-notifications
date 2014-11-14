@@ -3,8 +3,8 @@
 	Plugin Name: On-Site-Notifications
 	Plugin URI: http://www.q2apro.com/plugins/on-site-notifications
 	Plugin Description: Facebook-like / Stackoverflow-like notifications on your question2answer forum that can replace all email-notifications.
-	Plugin Version: 1.0
-	Plugin Date: 2014-03-29
+	Plugin Version: → see qa-plugin.php
+	Plugin Date: → see qa-plugin.php
 	Plugin Author: q2apro.com
 	Plugin Author URI: http://www.q2apro.com/
 	Plugin License: GPLv3
@@ -133,7 +133,7 @@
 
 					// List all events
 					$notifyBoxEvents = '<div id="nfyWrap" class="nfyWrap">
-					<div class="nfyTop">'.qa_lang('q2apro_onsitenotifications_lang/my_notifications').' <a id="nfyReadClose" style="float:right;cursor:pointer;">'.qa_lang('q2apro_onsitenotifications_lang/close').' | × |</a> </div>
+					<div class="nfyTop">'.qa_lang('q2apro_onsitenotifications_lang/my_notifications').' <a id="nfyReadClose">'.qa_lang('q2apro_onsitenotifications_lang/close').' | × |</a> </div>
 					<div class="nfyContainer">
 						<div id="nfyContainerInbox">
 						';
@@ -211,23 +211,23 @@
 						$itemIcon = '';
 						if($type=='in_c_question' || $type=='in_c_answer' || $type=='in_c_comment') { // added in_c_comment
 							$eventName = qa_lang('q2apro_onsitenotifications_lang/in_comment');
-							$itemIcon = '<img src="'.qa_path_absolute($this->urltoroot).'comment-icon.png" />';
+							$itemIcon = '<div class="nicon ncomment"></div>';
 						}
 						else if($type=='in_q_vote_up' || $type=='in_a_vote_up') {
 							$eventName = qa_lang('q2apro_onsitenotifications_lang/in_upvote');
-							$itemIcon = '<img src="'.qa_path_absolute($this->urltoroot).'vote-up-mini.png" />';
+							$itemIcon = '<div class="nicon nvoteup"></div>';
 						}
 						else if($type=='in_q_vote_down' || $type=='in_a_vote_down') {
 							$eventName = qa_lang('q2apro_onsitenotifications_lang/in_downvote');
-							$itemIcon = '<img src="'.qa_path_absolute($this->urltoroot).'vote-down-mini.png" />';
+							$itemIcon = '<div class="nicon nvotedown"></div>';
 						}
 						else if($type=='in_a_question') {
 							$eventName = qa_lang('q2apro_onsitenotifications_lang/in_answer');
-							$itemIcon = '<img src="'.qa_path_absolute($this->urltoroot).'answer-icon.png" />';
+							$itemIcon = '<div class="nicon nanswer"></div>';
 						}
 						else if($type=='in_a_select') {
 							$eventName = qa_lang('q2apro_onsitenotifications_lang/in_bestanswer');
-							$itemIcon = '<img src="'.qa_path_absolute($this->urltoroot).'best_answer_mini.png" />';
+							$itemIcon = '<div class="nicon nbestanswer"></div>';
 						}
 						else {
 							// ignore other events such as in_c_flag
@@ -246,9 +246,9 @@
 						}
 						
 						$notifyBoxEvents .= '<div class="itemBox'.$cssNewEv.'">
-							<p class="nfyIcon">'.$itemIcon.'</p>
+							'.$itemIcon.'
 							<div class="nfyItemLine">
-								<p>'.$eventName.' <a href="'.$activity_url.'" target="_blank">'.$linkTitle.'</a></p>
+								<p class="nfyWhat">'.$eventName.' <a href="'.$activity_url.'"'.(qa_opt('q2apro_onsitenotifications_newwindow')?' target="_blank"':'').'>'.$linkTitle.'</a></p>
 								<p class="nfyTime">'.$when.'</p>
 							</div>
 						</div>';
@@ -288,8 +288,11 @@
 
 			// return if not admin!
 			if(qa_get_logged_in_level() < QA_USER_LEVEL_ADMIN) {
-				$qa_content['custom0'] = '<div>Access denied</div>';
+				$qa_content['error'] = '<p>Access denied</p>';
 				return $qa_content;
+			}
+			else {
+				$qa_content['custom'] = '<p>Hi Admin, it actually makes no sense to call the Ajax URL directly.</p>';
 			}
 
 			return $qa_content;

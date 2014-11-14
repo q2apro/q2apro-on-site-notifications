@@ -24,38 +24,39 @@
 
 $(document).ready(function(){
 
-	$(document).on("click", "#nfyReadClose", function() {
-		$("#nfyWrap").fadeOut(500, function(){$(this).remove() });
+	$(document).on('click', '#nfyReadClose', function() {
+		$('#nfyWrap').fadeOut(500, function(){$(this).remove() });
 	});
-	$(".notifybub").click(function() {
+	$('.osn-new-events-link').click(function() {
 		// user clicked on N bubble again to hide event-box
-		if( $("#nfyWrap").length>0 && $("#nfyWrap").is(":visible") ) {
-			$("#nfyWrap").fadeOut(500, function(){$(this).remove() });
+		if( $('#nfyWrap').length>0 && $('#nfyWrap').is(':visible') ) {
+			$('#nfyWrap').fadeOut(500, function(){$(this).remove() });
 		}
 		else {
-		var evrequest = "receiveNotify";
+			var evrequest = 'receiveNotify';
 			$.ajax({
-				 type: "POST",
+				 type: 'POST',
 				 url: eventnotifyAjaxURL, // root
 				 data: {ajax:evrequest},
 				 cache: false,
 				 success: function(data) {
 					// remove Event-Box if formerly loaded
-					$("#nfyWrap").fadeOut(500, function(){$(this).remove() });
+					$('#nfyWrap').fadeOut(500, function(){$(this).remove() });
 					// insert ajax-loaded html 
-					// $(".qa-nav-user").append(data);
-					$(".qa-history-new-event-link").append(data);
+					// $('.qa-nav-user').append(data);
+					$('.osn-new-events-link').after(data);
 					// make yellow notification bubble gray
-					$(".ntfy-event-new").addClass('ntfy-read');
+					$('.ntfy-event-new').addClass('ntfy-read');
 				 }
 			});
 		}
 	});
 	
+	// fade out notifybox if visible on stage
 	$(document).click(function(event) { 
 		if($(event.target).parents().index($('#nfyWrap')) == -1) {
-			if($('#nfyWrap').is(":visible")) {
-				$("#nfyWrap").fadeOut(500, function(){$(this).remove() });
+			if($('#nfyWrap').is(':visible')) {
+				$('#nfyWrap').fadeOut(500, function(){$(this).remove() });
 			}
 		}        
 	})

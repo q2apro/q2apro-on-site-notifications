@@ -3,8 +3,8 @@
 	Plugin Name: On-Site-Notifications
 	Plugin URI: http://www.q2apro.com/plugins/on-site-notifications
 	Plugin Description: Facebook-like / Stackoverflow-like notifications on your question2answer forum that can replace all email-notifications.
-	Plugin Version: 1.0
-	Plugin Date: 2014-03-29
+	Plugin Version: → see qa-plugin.php
+	Plugin Date: → see qa-plugin.php
 	Plugin Author: q2apro.com
 	Plugin Author URI: http://www.q2apro.com/
 	Plugin License: GPLv3
@@ -70,6 +70,21 @@
 			// memo: would be best to check if plugin is installed in qa-plugin folder or using plugin_exists()
 			// however this functionality is not available in q2a v1.6.3
 			
+			// create table qa_usermeta which stores the last visit of each user
+			$tablename2 = qa_db_add_table_prefix('usermeta');
+			if (!in_array($tablename2, $tableslc)) {
+				qa_db_query_sub(
+					'CREATE TABLE IF NOT EXISTS ^usermeta (
+					meta_id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+					user_id bigint(20) unsigned NOT NULL,
+					meta_key varchar(255) DEFAULT NULL,
+					meta_value longtext,
+					PRIMARY KEY (meta_id),
+					UNIQUE (user_id,meta_key)
+					) ENGINE=MyISAM  DEFAULT CHARSET=utf8'
+				);
+			}
+
 		} // end init_queries
 
 		// option's value is requested but the option has not yet been set
@@ -83,15 +98,17 @@
 					return 365; // days
 				case 'q2apro_onsitenotifications_maxevshow':
 					return 100; // max events to show in notify box
+				case 'q2apro_onsitenotifications_newwindow':
+					return 1; // true
 				default:
 					return null;
 			}
 		}
-			
+		
 		function allow_template($template) {
 			return ($template!='admin');
-		}       
-			
+		}
+		
 		function admin_form(&$qa_content){                       
 
 			// process the admin form if admin hit Save-Changes-button
@@ -100,6 +117,7 @@
 				qa_opt('q2apro_onsitenotifications_enabled', (bool)qa_post_text('q2apro_onsitenotifications_enabled')); // empty or 1
 				qa_opt('q2apro_onsitenotifications_nill', qa_post_text('q2apro_onsitenotifications_nill')); // string
 				qa_opt('q2apro_onsitenotifications_maxevshow', (int)qa_post_text('q2apro_onsitenotifications_maxevshow')); // int
+				qa_opt('q2apro_onsitenotifications_newwindow', (int)qa_post_text('q2apro_onsitenotifications_newwindow')); // int
 				$ok = qa_lang('admin/options_saved');
 			}
 			
@@ -126,6 +144,13 @@
 				'label' => qa_lang('q2apro_onsitenotifications_lang/admin_maxeventsshow'),
 				'tags' => 'name="q2apro_onsitenotifications_maxevshow" style="width:100px;"',
 				'value' => qa_opt('q2apro_onsitenotifications_maxevshow'),
+			);
+
+			$fields[] = array(
+				'type' => 'checkbox',
+				'label' => qa_lang('q2apro_onsitenotifications_lang/admin_newwindow'),
+				'tags' => 'name="q2apro_onsitenotifications_newwindow"',
+				'value' => qa_opt('q2apro_onsitenotifications_newwindow'),
 			);
 
 			return array(           
