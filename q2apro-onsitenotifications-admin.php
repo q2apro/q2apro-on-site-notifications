@@ -100,6 +100,8 @@
 					return 100; // max events to show in notify box
 				case 'q2apro_onsitenotifications_newwindow':
 					return 1; // true
+				case 'q2apro_onsitenotifications_rtl':
+					return 0; // false
 				default:
 					return null;
 			}
@@ -117,7 +119,8 @@
 				qa_opt('q2apro_onsitenotifications_enabled', (bool)qa_post_text('q2apro_onsitenotifications_enabled')); // empty or 1
 				qa_opt('q2apro_onsitenotifications_nill', qa_post_text('q2apro_onsitenotifications_nill')); // string
 				qa_opt('q2apro_onsitenotifications_maxevshow', (int)qa_post_text('q2apro_onsitenotifications_maxevshow')); // int
-				qa_opt('q2apro_onsitenotifications_newwindow', (int)qa_post_text('q2apro_onsitenotifications_newwindow')); // int
+				qa_opt('q2apro_onsitenotifications_newwindow', (bool)qa_post_text('q2apro_onsitenotifications_newwindow')); // int
+				qa_opt('q2apro_onsitenotifications_rtl', (bool)qa_post_text('q2apro_onsitenotifications_rtl')); // int
 				$ok = qa_lang('admin/options_saved');
 			}
 			
@@ -151,6 +154,13 @@
 				'label' => qa_lang('q2apro_onsitenotifications_lang/admin_newwindow'),
 				'tags' => 'name="q2apro_onsitenotifications_newwindow"',
 				'value' => qa_opt('q2apro_onsitenotifications_newwindow'),
+			);
+
+			$fields[] = array(
+				'type' => 'checkbox',
+				'label' => qa_lang('q2apro_onsitenotifications_lang/admin_rtl'),
+				'tags' => 'name="q2apro_onsitenotifications_rtl"',
+				'value' => qa_opt('q2apro_onsitenotifications_rtl'),
 			);
 
 			$fields[] = array(

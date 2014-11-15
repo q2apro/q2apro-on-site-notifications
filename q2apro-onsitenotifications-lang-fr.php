@@ -34,6 +34,7 @@
 		'no_notifications_label' => 'S\'il n\'y a pas de notifications, ce sera affiché sur la bulle notifier:', // Label for notify bubble on top, next to user name
 		'admin_maxeventsshow' => 'Nombre maximal d\'événements à afficher dans la boîte de notification:', // extra
 		'admin_newwindow' => 'Open links from notification box in a new browser tab.', // extra (EN)
+		'admin_rtl' => 'Right to Left (RTL) language.', // extra (EN)
 		
 		// plugin
 		'my_notifications' => 'Mes notifications',

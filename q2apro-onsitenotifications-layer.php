@@ -58,6 +58,36 @@
 					');
 				}
 			
+				// from q2a v1.7 we can use: $isRTL = $this->isRTL; but prior q2a versions can not, so we provide an admin option				
+				if(qa_opt('q2apro_onsitenotifications_rtl')) {
+					$this->output('
+					<style type="text/css">
+						#nfyReadClose {
+							float:left;
+						}
+						.nfyWrap .nfyTop {
+							text-align:right;
+						}
+						.nfyContainer {
+							direction: rtl !important;
+							text-align: right !important;
+						}
+						.nfyWrap .nfyFooter {
+							text-align:left;
+						}
+						/* Snow Flat hacks */
+						.qam-account-items-wrapper #osnbox {
+							float: right;
+							margin-right:-30px;
+						}
+						.qam-account-items-wrapper .nfyWrap {
+							top: 31px;
+							left: 0;
+						}
+					</style>
+					');
+				}
+				
 			} // end enabled
 		} // end head_script
 		
