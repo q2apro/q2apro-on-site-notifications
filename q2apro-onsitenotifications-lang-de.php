@@ -49,6 +49,7 @@
 		'in_downvote' => 'Minuspunkt für',
 		'you_received' => 'Du hast eine',
 		'message_from' => 'private Nachricht von',
+		'wallpost_from' => 'Nachricht auf deiner Wall von',
 	);
 
 

@@ -96,7 +96,7 @@
 							FROM_UNIXTIME(#) <= datetime
 							AND
 							(e.userid=# AND e.event LIKE "in_%")
-							OR (e.event LIKE "u_message" AND e.params LIKE "userid=#\t%")
+							OR ((e.event LIKE "u_message" OR e.event LIKE "u_wall_post") AND e.params LIKE "userid=#\t%")
 						ORDER BY datetime DESC
 						LIMIT #', // Limit
 						qa_opt('q2apro_onsitenotifications_maxage'), // events of last x days
@@ -131,6 +131,26 @@
 							
 							// get message preview by cutting out the string
 							$event['message'] = substr($ustring,strpos($ustring,'message=')+8, strlen($ustring)-strpos($ustring,'message=')+8);
+							
+							$events[$m[1].'_'.$count++] = $event;								
+						}
+						// wall post
+						else if($event['event']=='u_wall_post') {
+							// example of $event['params']: userid=1	handle=admin	messageid=8	content=hi admin!	format=	text=hi admin!
+							$ustring = $event['params'];
+							
+							// get messageid
+							if(preg_match('/messageid=([0-9]+)/',$ustring,$m) === 1) {
+								$event['messageid'] = (int)$m[1];
+							}
+							
+							// needed for function qa_post_userid_to_handle()
+							require_once QA_INCLUDE_DIR.'qa-app-posts.php';
+							// get handle from userid, memo: userid from receiver is saved in params (the acting userid is the sender)
+							$event['handle'] = qa_post_userid_to_handle($event['userid']);
+							
+							// get message preview by cutting out the string
+							$event['message'] = substr($ustring,strpos($ustring,'text=')+5, strlen($ustring)-strpos($ustring,'text=')+5);
 							
 							$events[$m[1].'_'.$count++] = $event;								
 						}
@@ -169,6 +189,14 @@
 							$itemIcon = '<div class="nicon nmessage"></div>';
 							$activity_url = qa_path_absolute('message').'/'.$event['handle'];
 							$linkTitle = qa_lang('q2apro_onsitenotifications_lang/message_from').' '.$event['handle'];
+						}
+						else if($type=='u_wall_post') {
+							$eventName = qa_lang('q2apro_onsitenotifications_lang/you_received').' ';
+							$itemIcon = '<div class="nicon nwallpost"></div>';
+							// create link to own wall, needs handle
+							$userhandle = qa_userid_to_handle($userid);
+							$activity_url = qa_path_absolute('user').'/'.$userhandle.'/wall';
+							$linkTitle = qa_lang('q2apro_onsitenotifications_lang/wallpost_from').' '.$event['handle'];
 						}
 						else {
 							// a_post, c_post, q_vote_up, a_vote_up, q_vote_down, a_vote_down
@@ -283,7 +311,7 @@
 								'.$itemIcon.'
 								<div class="nfyItemLine">
 									<p class="nfyWhat">'.$eventName.' 
-										<a '.($type=='u_message'?'title="'.$event['message'].'" ':'').'href="'.$activity_url.'"'.(qa_opt('q2apro_onsitenotifications_newwindow')?' target="_blank"':'').'>'.$linkTitle.'</a>
+										<a '.($type=='u_message' || $type=='u_wall_post'?'title="'.$event['message'].'" ':'').'href="'.$activity_url.'"'.(qa_opt('q2apro_onsitenotifications_newwindow')?' target="_blank"':'').'>'.$linkTitle.'</a>
 									</p>
 									<p class="nfyTime">'.$when.'</p>
 								</div>

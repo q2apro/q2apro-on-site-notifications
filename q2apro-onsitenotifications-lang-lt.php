@@ -49,6 +49,7 @@
 		'in_downvote' => 'Minus taškas už',
 		'you_received' => 'You received a',
 		'message_from' => 'private message from',
+		'wallpost_from' => 'wall post from',
 	);
 
 

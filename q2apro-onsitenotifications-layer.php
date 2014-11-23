@@ -120,7 +120,7 @@
 								AND DATE_SUB(CURDATE(),INTERVAL # DAY) <= datetime 
 								AND (
 								(userid=# AND event LIKE "in_%")
-								OR (event LIKE "u_message" AND params LIKE "userid=#\t%")
+								OR ((event LIKE "u_message" OR event LIKE "u_wall_post") AND params LIKE "userid=#\t%")
 								)
 								',
 								$last_visit,

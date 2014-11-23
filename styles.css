@@ -109,6 +109,9 @@
 .nicon.nmessage {
 	background:url(icons.png) no-repeat 0 -80px;
 }
+.nicon.nwallpost {
+	background:url(icons.png) no-repeat 0 -96px;
+}
 .nfyWhat {
 	padding-top:3px;
 }
