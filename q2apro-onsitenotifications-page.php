@@ -194,7 +194,9 @@
 							$eventName = qa_lang('q2apro_onsitenotifications_lang/you_received').' ';
 							$itemIcon = '<div class="nicon nwallpost"></div>';
 							// create link to own wall, needs handle
-							$userhandle = qa_userid_to_handle($userid);
+							require_once QA_INCLUDE_DIR.'qa-app-posts.php';
+							$userhandle = qa_post_userid_to_handle($userid); 
+							// from v1.7 require_once QA_INCLUDE_DIR.'qa-app-users.php'; and qa_userid_to_handle($userid);
 							$activity_url = qa_path_absolute('user').'/'.$userhandle.'/wall';
 							$linkTitle = qa_lang('q2apro_onsitenotifications_lang/wallpost_from').' '.$event['handle'];
 						}
