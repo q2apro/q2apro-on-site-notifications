@@ -26,7 +26,7 @@ See [demo video here](https://www.youtube.com/watch?v=C86rdJkGP3k). Or try it ou
 
 See quick [video tutorial for installation](https://www.youtube.com/watch?feature=player_detailpage&v=C86rdJkGP3k#t=90) or follow these steps:
   
-- Download the plugin as ZIP from [github](https://github.com/q2apro/q2apro-notify-registration/archive/master.zip) or from the [q2apro plugin page](http://www.q2apro.com/plugins/on-site-notifications).
+- Download the plugin as ZIP from [github](https://github.com/q2apro/q2apro-on-site-notifications) or from the [q2apro plugin page](http://www.q2apro.com/plugins/on-site-notifications).
 - Make a full backup of your q2a database before installing the plugin.
 - Extract the folder ``q2apro-on-site-notifications`` from the ZIP file.
 - Move the folder ``q2apro-on-site-notifications`` to the ``qa-plugin`` folder of your Q2A installation.
