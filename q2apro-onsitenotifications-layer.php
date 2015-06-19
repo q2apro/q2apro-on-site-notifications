@@ -63,7 +63,7 @@
 					$this->output('
 					<style type="text/css">
 						#nfyReadClose {
-							float:left;
+							float:left !important;
 						}
 						.nfyWrap .nfyTop {
 							text-align:right;
@@ -74,6 +74,13 @@
 						}
 						.nfyWrap .nfyFooter {
 							text-align:left;
+						}
+						.nfyIcon {
+							float:right;
+						}
+						.nfyWrap .nfyItemLine {
+							float:right;
+							margin-right:5px;
 						}
 						/* Snow Flat hacks */
 						.qam-account-items-wrapper #osnbox {
