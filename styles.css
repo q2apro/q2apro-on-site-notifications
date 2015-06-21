@@ -7,94 +7,88 @@
 	display:inline-block;
 	text-align: left;
 }
-.nfyIcon {
-	display: block;
-	float: left;
-	text-decoration: none;
-	margin: 0px 6px 2px 2px;
-}
 .nfyWrap {
-	position: absolute;
-	top: 31px;
-	left: -280px;
-	width: 460px;
-	background: #fefefe;
-	padding: 0;
-	font-family: Arial,Helvetica,sans-serif;
-	box-shadow: 4px 4px 7px #ababab;
-	z-index: 999;
+    position: absolute;
+    top: 31px;
+    left: -280px;
+    width: 460px;
+    background: #fefefe;
+    padding: 0;
+    font-family: Arial,Helvetica,sans-serif;
+    box-shadow: 4px 4px 7px #ababab;
+    z-index: 999;
 }
 .nfyWrap .nfyTop {
-	font-size: 11px;
-	line-height: 12px;
-	padding: 5px;
-	color: #333;
-	background: #eaeaea;
-	border: 1px solid #CCC;
-	border-radius: 3px 3px 0 0;
+    font-size: 11px;
+    line-height: 12px;
+    padding: 5px;
+    color: #333;
+    background: #eaeaea;
+    border: 1px solid #CCC;
+    border-radius: 3px 3px 0 0;
 }
 .nfyWrap .nfyContainer {
 	width: 100%;
-	overflow-y: auto;
-	padding: 0;
-	height: 240px;
+    overflow-y: auto;
+    padding: 0;
+    height: 240px;
 }
 .nfyWrap .nfyFooter {
-	padding: 5px;
-	background: #fefefe;
-	text-align: right;
-	font-size: 10px;
+    padding: 5px;
+    background: #fefefe;
+    text-align: right;
+    font-size: 10px;
 }
 .nfyWrap .nfyFooter a {
-	color: #aaa;
-	cursor: pointer;
+    color: #aaa;
+    cursor: pointer;
 }
 .nfyWrap .itemBox, .nfyWrap .itemBox-new {
-	width: 454px; /*99%;*/
-	float: left;
-	margin: 0;
-	padding: 7px 0px 5px 4px;
-	border-bottom: 1px dashed #CCC;
+	width: 100%;
+    float: left;
+    margin: 0;
+    padding: 3px 0px 12px 0;
+    border-bottom: 1px dashed #CCC;
 }
 .nfyWrap .itemBox-new {
-	background: #FE8;
+    background: #FE8;
 }
 .nfyWrap .itemBox:hover {
-	background: #EEE;
+    background: #EEE;
 }
 .nfyWrap .itemBoxNew {
-	background-color: #ffffe2;
+    background-color: #ffffe2;
 }
 .nfyWrap .nfyItemLine {
 	display:inline-block;
-	width: 410px;
-	font-size: 12px;
-	color: #555;
+    width: 410px;
+    font-size: 12px;
+    color: #555;
 }
 .nfyWrap .nfyItemLine a {
-	font-size: 12px;
-	color: #44A;
-	text-decoration: none;
+    font-size: 12px;
+    color: #44A;
+    text-decoration: none;
 }
 .nfyWrap .nfyItemLine p {
 	display:inline-block;
-	margin: 0 0 2px 0;
-	line-height: 1.2;
+    margin: 0 0 2px 0;
+    line-height: 1.2;
 }
 .nfyWrap .siteLink {
-	font-size: 9px !important;
-	text-decoration: none;
-	font-weight: normal !important;
-	margin-bottom: 4px;
-	display: inline-block;
+    font-size: 9px !important;
+    text-decoration: none;
+    font-weight: normal !important;
+    margin-bottom: 4px;
+    display: inline-block;
 }
 .nfyWrap .nfyItemLine a:hover {
-	color: #55F;
+    color: #55F;
 }
 .nicon {
 	display: inline-block;
-	width: 16px;
-	height: 16px;
+    width: 16px;
+    height: 16px;
 	margin: 4px 4px 0 5px;
 	vertical-align: top;
 }
@@ -123,23 +117,23 @@
 	padding-top:3px;
 }
 .nfyTime {
-	color: #888;
+    color: #888;
 	display:block !important;
 }
 .qa-history-event-nill {
-	display: inline-block;
-	width: 15px;
-	height: 15px;
-	overflow: hidden;
-	border: 0;
-	border-radius: 10px;
-	box-shadow: 0 1px 1px #999;
-	text-align: center;
-	background-color: #999;
-	font-style: italic;
-	font-weight: bold;
-	color: #FFF;
-	cursor: pointer;
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    overflow: hidden;
+    border: 0;
+    border-radius: 10px;
+    box-shadow: 0 1px 1px #999;
+    text-align: center;
+    background-color: #999;
+    font-style: italic;
+    font-weight: bold;
+    color: #FFF;
+    cursor: pointer;
 }
 .osn-new-events-link {
 	position: relative;
@@ -149,20 +143,20 @@
 }
 /* notifybub (N) */
 .ntfy-event-new, .ntfy-event-nill {
-	background-color: #FF5;
-	color: #000;
-	border: 1px solid #EEEE00;
-	border-radius: 3px;
-	cursor: pointer;
-	font-size: 11px;
+    background-color: #FF5;
+    color: #000;
+    border: 1px solid #EEEE00;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 11px;
 	font-weight: bold;
-	padding: 3px 4px;
-	vertical-align: top;
+    padding: 3px 4px;
+    vertical-align: top;
 }
 .ntfy-read, .ntfy-event-nill {
-	background: #CCC;
-	border: 1px solid #CCC;
-	color: #555;
+    background: #CCC;
+    border: 1px solid #CCC;
+    color: #555;
 }
 #nfyReadClose {
 	float:right;
@@ -173,13 +167,13 @@
 /* snow flat theme */
 .qam-account-items-wrapper #osnbox {
 	float: left;
-	margin-left:-30px;
+    margin-left:-30px;
 }
 .qam-account-items-wrapper .ntfy-event-new, .qam-account-items-wrapper .ntfy-event-nill {
 	padding: 4px 7px;
 }
 .qam-account-items-wrapper .nfyWrap {
-	left:-437px;
+    left:-437px;
 	top:30px;
 }
 .qam-account-items-wrapper .nfyWrap, .qam-account-items-wrapper .nfyWrap .nfyContainer p {
