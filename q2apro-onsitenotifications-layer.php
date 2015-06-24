@@ -27,7 +27,8 @@
 		
 		function head_script(){
 			qa_html_theme_base::head_script();
-			if(qa_opt('q2apro_onsitenotifications_enabled')) {
+			// only load if enabled and user logged-in
+			if(qa_opt('q2apro_onsitenotifications_enabled') && qa_is_logged_in()) {
 				$this->output('<script type="text/javascript">
 						var eventnotifyAjaxURL = "'.qa_path('eventnotify').'";
 					</script>');  
