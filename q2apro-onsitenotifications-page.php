@@ -330,6 +330,7 @@
 					';
 					
 					header('Access-Control-Allow-Origin: '.qa_path(null));
+					header("Content-type: text/html; charset=utf-8");
 					echo $notifyBoxEvents;
 					
 					// update database entry so that all user notifications are seen as read
