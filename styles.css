@@ -180,3 +180,23 @@
 	/* disable snow flat's global border-box */
 	box-sizing: content-box !important;
 }
+
+/* smartphones */
+@media only screen and (max-width:480px) {
+
+	.nfyWrap {
+		position: fixed;
+		top: 100px;
+		left: 2%;
+		width: 95%;
+	}
+	.nfyWrap .itemBox, .nfyWrap .itemBox-new {
+		width:95%;
+		padding: 3px 0px 12px 10px;
+	}
+	.nfyWrap .nfyItemLine {
+		display: inline-block;
+		width: 90%;
+	}
+
+}
