@@ -56,6 +56,6 @@ If you use the plugin:
 
   * Visit [www.q2apro.com](http://www.q2apro.com) to get more [free and premium plugins](http://www.q2apro.com/plugins).
   * Translate the plugin into your language and send us the language file.
-  * Say thank you by [donating 5 to 10 USD](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WER75XZB9JY8A) to the developers.
+  * Say thank you by [donating 5 to 10 USD](https://www.paypal.me/q2apro) to the developers.
 
 Have fun!
