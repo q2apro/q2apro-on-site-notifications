@@ -313,7 +313,7 @@
 								'.$itemIcon.'
 								<div class="nfyItemLine">
 									<p class="nfyWhat">'.$eventName.' 
-										<a '.($type=='u_message' || $type=='u_wall_post'?'title="'.$event['message'].'" ':'').'href="'.$activity_url.'"'.(qa_opt('q2apro_onsitenotifications_newwindow')?' target="_blank"':'').'>'.$linkTitle.'</a>
+										<a '.($type=='u_message' || $type=='u_wall_post'?'title="'.$event['message'].'" ':'').'href="'.$activity_url.'"'.(qa_opt('q2apro_onsitenotifications_newwindow')?' target="_blank"':'').'>'.htmlentities($linkTitle).'</a>
 									</p>
 									<p class="nfyTime">'.$when.'</p>
 								</div>
