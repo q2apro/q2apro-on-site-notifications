@@ -207,18 +207,7 @@
 							// assign post content (postid,type,parentid,title) if available
 							$post = @$posts[$postid];
 
-							$params = array();
-							// explode string to array with values (memo: leave "\t", '\t' will cause errors)
-							$paramsa = explode("\t", $event['params']);
-							foreach($paramsa as $param) {
-								$parama = explode('=',$param);
-								if(isset($parama[1])) {
-									$params[$parama[0]] = $parama[1];
-								}
-								else {
-									$params[$param] = $param;
-								}
-							}
+							$params = $this->getParamsAsArray($event);
 
 							$link = '';
 							$linkTitle = '';
@@ -372,6 +361,27 @@
 				'INSERT INTO ^usermeta (user_id,meta_key,meta_value) VALUES(#,$,NOW()) ON DUPLICATE KEY UPDATE meta_value=NOW()',
 				$userid, 'visited_profile'
 			);
+		}
+
+		/**
+		 * @param $event
+		 * @return array
+		 */
+		private function getParamsAsArray($event)
+		{
+			$params = array();
+			// explode string to array with values (memo: leave "\t", '\t' will cause errors)
+			$paramsa = explode("\t", $event['params']);
+			foreach ($paramsa as $param) {
+				$parama = explode('=', $param);
+				if (isset($parama[1])) {
+					$params[$parama[0]] = $parama[1];
+				} else {
+					$params[$param] = $param;
+				}
+			}
+
+			return $params;
 		}
 
 	}; // end class
