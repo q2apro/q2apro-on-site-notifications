@@ -10,8 +10,8 @@
 	Plugin License: GPLv3
 	Plugin Minimum Question2Answer Version: → see qa-plugin.php
 	Plugin Update Check URI: https://raw.githubusercontent.com/q2apro/q2apro-on-site-notifications/master/qa-plugin.php
-	
-	This program is free software. You can redistribute and modify it 
+
+	This program is free software. You can redistribute and modify it
 	under the terms of the GNU General Public License.
 
 	This program is distributed in the hope that it will be useful,
@@ -35,7 +35,7 @@
 		'admin_maxeventsshow' => 'Maximální počet akcí poli oznámení:', // extra
 		'admin_newwindow' => 'Otevřít odkazy z oznamovacím poli v nové záložce prohlížeče.', // extra
 		'admin_rtl' => 'Zprava doleva (RTL) jazyce ( pro Araby ).', // extra (EN)
-		
+
 		// plugin
 		'my_notifications' => 'Moje oznámení',
 		'show_notifications' => 'Zobrazit oznámení',

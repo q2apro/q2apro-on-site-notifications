@@ -10,8 +10,8 @@
 	Plugin License: GPLv3
 	Plugin Minimum Question2Answer Version: → see qa-plugin.php
 	Plugin Update Check URI: https://raw.githubusercontent.com/q2apro/q2apro-on-site-notifications/master/qa-plugin.php
-	
-	This program is free software. You can redistribute and modify it 
+
+	This program is free software. You can redistribute and modify it
 	under the terms of the GNU General Public License.
 
 	This program is distributed in the hope that it will be useful,
@@ -35,7 +35,7 @@
 		'admin_maxeventsshow' => 'Maximal anzuzeigende Events im Benachrichtigungsfenster:', // extra
 		'admin_newwindow' => 'Links im Benachrichtigungsfenster im neuen Browser-Tab öffnen.', // extra
 		'admin_rtl' => 'Rechts-nach-Links (RTL) Sprache.', // extra (EN)
-		
+
 		// plugin
 		'my_notifications' => 'Meine Benachrichtigungen',
 		'show_notifications' => 'Benachrichtigungen anzeigen',

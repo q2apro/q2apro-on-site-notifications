@@ -10,8 +10,8 @@
 	Plugin License: GPLv3
 	Plugin Minimum Question2Answer Version: → see qa-plugin.php
 	Plugin Update Check URI: https://raw.githubusercontent.com/q2apro/q2apro-on-site-notifications/master/qa-plugin.php
-	
-	This program is free software. You can redistribute and modify it 
+
+	This program is free software. You can redistribute and modify it
 	under the terms of the GNU General Public License.
 
 	This program is distributed in the hope that it will be useful,
@@ -30,11 +30,11 @@
 
 	class q2apro_history_check {
 	// main event processing function
-	
+
 		function process_event($event, $userid, $handle, $cookieid, $params) {
-			
+
 			if(!qa_opt('event_logger_to_database')) return;
-			
+
 			// needed for function qa_post_userid_to_handle()
 			require_once QA_INCLUDE_DIR.'qa-app-posts.php';
 
@@ -58,14 +58,14 @@
 				//'u_block',
 				//'u_unblock',
 			 );
-			 
+
 			 $special = array(
 				'a_post',
 				'c_post'
 			);
-			 
+
 			if(in_array($event, $twoway)) {
-				
+
 				if(strpos($event,'u_') === 0) {
 					$uid = $params['userid'];
 				}
@@ -78,18 +78,18 @@
 						true
 					);
 				}
-				
+
 				if($uid != $userid) {
 					$ohandle = qa_post_userid_to_handle($uid);
-					
+
 					$oevent = 'in_'.$event;
-					
+
 					$paramstring='';
-					
+
 					foreach ($params as $key => $value) {
-						$paramstring.=(strlen($paramstring) ? "\t" : '').$key.'='.$this->value_to_text($value);						
+						$paramstring.=(strlen($paramstring) ? "\t" : '').$key.'='.$this->value_to_text($value);
 					}
-					
+
 					// write in_ events to qa_eventlog
 					qa_db_query_sub(
 						'INSERT INTO ^eventlog (datetime, ipaddress, userid, handle, cookieid, event, params) '.
@@ -98,7 +98,7 @@
 					);
 				}
 			}
-			
+
 			// comments and answers
 			if(in_array($event,$special)) {
 				// userid (recent C)
@@ -119,9 +119,9 @@
 				);
 				// if QA poster is not the same as commenter
 				if($pid != $userid) {
-			
+
 					$ohandle = qa_post_userid_to_handle($pid);
-					
+
 					switch($event) {
 						case 'a_post':
 								$oevent = 'in_a_question';
@@ -129,23 +129,23 @@
 						case 'c_post':
 							if ($params['parenttype'] == 'Q')
 								$oevent = 'in_c_question';
-							else 
+							else
 								$oevent = 'in_c_answer';
 							break;
 					}
-					
+
 					$paramstring='';
-					
+
 					foreach ($params as $key => $value)
 						$paramstring.=(strlen($paramstring) ? "\t" : '').$key.'='.$this->value_to_text($value);
-					
+
 					qa_db_query_sub(
 						'INSERT INTO ^eventlog (datetime, ipaddress, userid, handle, cookieid, event, params) '.
 						'VALUES (NOW(), $, $, $, #, $, $)',
 						qa_remote_ip_address(), $pid, $ohandle, $cookieid, $oevent, $paramstring
-					);				
+					);
 				}
-	
+
 				// q2apro: added logging for comments in thread
 				if($event=='c_post') {
 					$oevent = 'in_c_comment';
@@ -161,7 +161,7 @@
 
 					while( ($comment = qa_db_read_one_assoc($precCommentsQuery,true)) !== null ) {
 						$userid_CommThr = $comment['userid']; // unique
-						
+
 						// don't inform user that comments, and don't inform user that comments on his own question/answer
 						if($userid_CommThr != $uid && $userid_CommThr != $pid) {
 							$ohandle = qa_post_userid_to_handle($userid_CommThr);
@@ -170,7 +170,7 @@
 							foreach ($params as $key => $value) {
 								$paramstring .= (strlen($paramstring) ? "\t" : '').$key.'='.$this->value_to_text($value);
 							}
-							
+
 							qa_db_query_sub(
 								'INSERT INTO ^eventlog (datetime, ipaddress, userid, handle, cookieid, event, params) '.
 								'VALUES (NOW(), $, $, $, #, $, $)',
@@ -179,7 +179,7 @@
 						}
 					}
 				} // end in_c_comment
-				
+
 			} // end in_array
 		} // end process_event
 
@@ -192,13 +192,13 @@
 				$text=substr($value, 0, 38).'...';
 			else
 				$text=$value;
-				
+
 			return strtr($text, "\t\n\r", '   ');
 		}
-		
+
 	} // end class
 
-	
+
 /*
 	Omit PHP closing tag to help avoid accidental output
 */

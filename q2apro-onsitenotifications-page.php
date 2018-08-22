@@ -10,8 +10,8 @@
 	Plugin License: GPLv3
 	Plugin Minimum Question2Answer Version: → see qa-plugin.php
 	Plugin Update Check URI: https://raw.githubusercontent.com/q2apro/q2apro-on-site-notifications/master/qa-plugin.php
-	
-	This program is free software. You can redistribute and modify it 
+
+	This program is free software. You can redistribute and modify it
 	under the terms of the GNU General Public License.
 
 	This program is distributed in the hope that it will be useful,
@@ -24,19 +24,19 @@
 */
 
 	class q2apro_onsitenotifications_page {
-		
+
 		var $directory;
 		var $urltoroot;
-		
+
 		function load_module($directory, $urltoroot)
 		{
 			$this->directory = $directory;
 			$this->urltoroot = $urltoroot;
 		}
-		
+
 		// for display in admin interface under admin/pages
-		function suggest_requests() 
-		{	
+		function suggest_requests()
+		{
 			return array(
 				array(
 					'title' => 'On-Site-Notifications Page', // title of page
@@ -45,7 +45,7 @@
 				),
 			);
 		}
-		
+
 		// for url query
 		function match_request($request)
 		{
@@ -57,21 +57,21 @@
 
 		function process_request($request)
 		{
-		
+
 			// we received post data, it is the ajax call!
 			$transferString = qa_post_text('ajax');
 			if( $transferString !== null ) {
-				
+
 				// prevent empty userid
 				$userid = qa_get_logged_in_userid();
 				if(empty($userid)) {
 					echo 'Userid is empty!';
 					return;
-				}	
-				
+				}
+
 				// this is echoed via ajax success data
 				$notifyBoxEvents = '';
-				
+
 				// ajax return all user events
 				if(isset($userid) && $transferString=='receiveNotify'){
 					$last_visit = qa_db_read_one_value(
@@ -100,11 +100,11 @@
 						ORDER BY datetime DESC
 						LIMIT #', // Limit
 						qa_opt('q2apro_onsitenotifications_maxage'), // events of last x days
-						$userid, 
-						$userid, 
+						$userid,
+						$userid,
 						$maxEvents
 					);
-					
+
 					$events = array();
 					$postids = array();
 					$count = 0;
@@ -118,44 +118,44 @@
 						if($event['event']=='u_message') {
 							// example of $event['params']: userid=1  handle=admin  messageid=4  message=hi admin, how are you?
 							$ustring = $event['params'];
-							
+
 							// get messageid
 							if(preg_match('/messageid=([0-9]+)/',$ustring,$m) === 1) {
 								$event['messageid'] = (int)$m[1];
 							}
-							
+
 							// needed for function qa_post_userid_to_handle()
 							require_once QA_INCLUDE_DIR.'qa-app-posts.php';
 							// get handle from userid, memo: userid from receiver is saved in params (the acting userid is the sender)
 							$event['handle'] = qa_post_userid_to_handle($event['userid']);
-							
+
 							// get message preview by cutting out the string
 							$event['message'] = substr($ustring,strpos($ustring,'message=')+8, strlen($ustring)-strpos($ustring,'message=')+8);
-							
-							$events[$m[1].'_'.$count++] = $event;								
+
+							$events[$m[1].'_'.$count++] = $event;
 						}
 						// wall post
 						else if($event['event']=='u_wall_post') {
 							// example of $event['params']: userid=1	handle=admin	messageid=8	content=hi admin!	format=	text=hi admin!
 							$ustring = $event['params'];
-							
+
 							// get messageid
 							if(preg_match('/messageid=([0-9]+)/',$ustring,$m) === 1) {
 								$event['messageid'] = (int)$m[1];
 							}
-							
+
 							// needed for function qa_post_userid_to_handle()
 							require_once QA_INCLUDE_DIR.'qa-app-posts.php';
 							// get handle from userid, memo: userid from receiver is saved in params (the acting userid is the sender)
 							$event['handle'] = qa_post_userid_to_handle($event['userid']);
-							
+
 							// get message preview by cutting out the string
 							$event['message'] = substr($ustring,strpos($ustring,'text=')+5, strlen($ustring)-strpos($ustring,'text=')+5);
-							
-							$events[$m[1].'_'.$count++] = $event;								
+
+							$events[$m[1].'_'.$count++] = $event;
 						}
 					}
-					
+
 					// get post info, also make sure that post exists
 					$posts = null;
 					if(!empty($postids)) {
@@ -177,13 +177,13 @@
 						<div class="nfyContainer">
 							<div id="nfyContainerInbox">
 						';
-					
+
 					// BIG FOREACH
 					foreach($events as $postid_string => $event) {
 						// $postid_string, e.g. 32_1 (32 is postid, 1 is global event count)
-						
+
 						$type = $event['event'];
-						
+
 						if($type=='u_message') {
 							$eventName = qa_lang('q2apro_onsitenotifications_lang/you_received').' ';
 							$itemIcon = '<div class="nicon nmessage"></div>';
@@ -195,7 +195,7 @@
 							$itemIcon = '<div class="nicon nwallpost"></div>';
 							// create link to own wall, needs handle
 							require_once QA_INCLUDE_DIR.'qa-app-posts.php';
-							$userhandle = qa_post_userid_to_handle($userid); 
+							$userhandle = qa_post_userid_to_handle($userid);
 							// from v1.7 require_once QA_INCLUDE_DIR.'qa-app-users.php'; and qa_userid_to_handle($userid);
 							$activity_url = qa_path_absolute('user').'/'.$userhandle.'/wall';
 							$linkTitle = qa_lang('q2apro_onsitenotifications_lang/wallpost_from').' '.$event['handle'];
@@ -206,7 +206,7 @@
 							$post = null;
 							// assign post content (postid,type,parentid,title) if available
 							$post = @$posts[$postid];
-							
+
 							$params = array();
 							// explode string to array with values (memo: leave "\t", '\t' will cause errors)
 							$paramsa = explode("\t", $event['params']);
@@ -219,11 +219,11 @@
 									$params[$param] = $param;
 								}
 							}
-							
+
 							$link = '';
 							$linkTitle = '';
 							$activity_url = '';
-							
+
 							// comment or answer
 							if(isset($post) && strpos($event['event'],'q_') !== 0 && strpos($event['event'],'in_q_') !== 0) {
 								if(!isset($params['parentid'])) {
@@ -242,9 +242,9 @@
 											$userid,
 											$parent['parentid']
 										)
-									);				
+									);
 								}
-								
+
 								$anchor = qa_anchor((strpos($event['event'],'a_') === 0 || strpos($event['event'],'in_a_') === 0?'A':'C'), $params['postid']);
 								$activity_url = qa_path_absolute(qa_q_request($parent['postid'], $parent['title']), null, $anchor);
 								$linkTitle = $parent['title'];
@@ -262,7 +262,7 @@
 									$link = '<a target="_blank" href="'.$activity_url.'">'.$qTitle.'</a>';
 								}
 							}
-							
+
 							// event name
 							$eventName = '';
 							$itemIcon = '';
@@ -290,11 +290,11 @@
 								// ignore other events such as in_c_flag
 								continue;
 							}
-							
+
 						} // end a_post, c_post, q_vote_up, a_vote_up, q_vote_down, a_vote_down
-						
+
 						$eventtime = $event['datetime'];
-						
+
 						$whenhtml = qa_html(qa_time_to_string(qa_opt('db_time')-$eventtime));
 						$when = qa_lang_html_sub('main/x_ago', $whenhtml);
 
@@ -303,7 +303,7 @@
 						if($eventtime > $last_visit) {
 							$cssNewEv = '-new';
 						}
-					
+
 						// if post has been deleted there is no link, dont output
 						if($activity_url=='') {
 							continue;
@@ -328,26 +328,26 @@
 						</div>
 					</div>
 					';
-					
+
 					header('Access-Control-Allow-Origin: '.qa_path(null));
 					header("Content-type: text/html; charset=utf-8");
 					echo $notifyBoxEvents;
-					
+
 					// update database entry so that all user notifications are seen as read
 					qa_db_query_sub(
 						'INSERT INTO ^usermeta (user_id,meta_key,meta_value) VALUES(#,$,NOW()) ON DUPLICATE KEY UPDATE meta_value=NOW()',
 						$userid, 'visited_profile'
 					);
 
-					exit(); 
+					exit();
 				} // END AJAX RETURN
 				else {
 					echo 'Unexpected problem detected! No userid, no transfer string.';
 					exit();
 				}
 			}
-			
-			
+
+
 			/* start */
 			$qa_content = qa_content_prepare();
 
@@ -364,9 +364,9 @@
 
 			return $qa_content;
 		}
-		
+
 	}; // end class
-	
+
 /*
 	Omit PHP closing tag to help avoid accidental output
 */

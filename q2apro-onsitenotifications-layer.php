@@ -10,8 +10,8 @@
 	Plugin License: GPLv3
 	Plugin Minimum Question2Answer Version: → see qa-plugin.php
 	Plugin Update Check URI: https://raw.githubusercontent.com/q2apro/q2apro-on-site-notifications/master/qa-plugin.php
-	
-	This program is free software. You can redistribute and modify it 
+
+	This program is free software. You can redistribute and modify it
 	under the terms of the GNU General Public License.
 
 	This program is distributed in the hope that it will be useful,
@@ -24,17 +24,17 @@
 */
 
 	class qa_html_theme_layer extends qa_html_theme_base {
-		
+
 		function head_script(){
 			qa_html_theme_base::head_script();
 			// only load if enabled and user logged-in
 			if(qa_opt('q2apro_onsitenotifications_enabled') && qa_is_logged_in()) {
 				$this->output('<script type="text/javascript">
 						var eventnotifyAjaxURL = "'.qa_path('eventnotify').'";
-					</script>');  
+					</script>');
 				$this->output('<script type="text/javascript" src="'.QA_HTML_THEME_LAYER_URLTOROOT.'script.js"></script>');
 				$this->output('<link rel="stylesheet" type="text/css" href="'.QA_HTML_THEME_LAYER_URLTOROOT.'styles.css">');
-				
+
 				// hack for snow flat theme (q2a v1.7) to show the notification icon outside the user's drop down
 				if(qa_opt('site_theme')=='SnowFlat') {
 					$this->output('
@@ -47,7 +47,7 @@
 					</script>
 					');
 				}
-				
+
 				// hack for snow theme (q2a v1.6) to position the notification box more to the right
 				if(qa_opt('site_theme')=='Snow') {
 					$this->output('
@@ -58,8 +58,8 @@
 					</style>
 					');
 				}
-			
-				// from q2a v1.7 we can use: $isRTL = $this->isRTL; but prior q2a versions can not, so we provide an admin option				
+
+				// from q2a v1.7 we can use: $isRTL = $this->isRTL; but prior q2a versions can not, so we provide an admin option
 				if(qa_opt('q2apro_onsitenotifications_rtl')) {
 					$this->output('
 					<style type="text/css">
@@ -95,10 +95,10 @@
 					</style>
 					');
 				}
-				
+
 			} // end enabled
 		} // end head_script
-		
+
 		function doctype() {
 			/* The following code originates from q2a plugin "History" by NoahY and has been modified by q2apro.com
 			 * It is licensed under GPLv3 http://www.gnu.org/licenses/gpl.html
@@ -119,7 +119,7 @@
 				if(is_null($last_visit)) {
 					$last_visit = '1981-03-31 06:25:00';
 				}
-				
+
 				// select and count all in_eventcount that are newer as last visit
 				$eventcount = qa_db_read_one_value(
 					qa_db_query_sub(
@@ -132,12 +132,12 @@
 								)
 								',
 								$last_visit,
-								qa_opt('q2apro_onsitenotifications_maxage'), 
-								$userid, 
+								qa_opt('q2apro_onsitenotifications_maxage'),
+								$userid,
 								$userid
 					)
 				);
-				
+
 				// q2apro notification tooltip
 				if ($eventcount > 0) {
 					if ($eventcount == 1) {  // only one event
@@ -152,20 +152,20 @@
 					$eventcount = qa_opt('q2apro_onsitenotifications_nill');
 					$classSuffix = 'nill';  // add notify bubble to user navigation
 				}
-				
+
 				$html = '<div id="osnbox">
 							<a class="osn-new-events-link" title="'.$tooltip.'"><span class="notifybub ntfy-event-'. $classSuffix.'">'.$eventcount.'</span></a>
 						</div>';
-				
+
 				// add to user panel
 				$this->content['loggedin']['suffix'] = @$this->content['loggedin']['suffix']. ' ' . $html;
 			}
-			
+
 			qa_html_theme_base::doctype();
 		}
 
 	} // end qa_html_theme_layer
-	
+
 /*
 	Omit PHP closing tag to help avoid accidental output
 */
