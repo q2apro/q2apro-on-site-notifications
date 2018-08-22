@@ -203,7 +203,7 @@
 						else {
 							// a_post, c_post, q_vote_up, a_vote_up, q_vote_down, a_vote_down
 							$postid = preg_replace('/_.*/','', $postid_string);
-							$post = null;
+
 							// assign post content (postid,type,parentid,title) if available
 							$post = @$posts[$postid];
 
@@ -219,19 +219,9 @@
 									$params['parentid'] = $post['parentid'];
 								}
 
-								$parent = qa_db_select_with_pending(
-									qa_db_full_post_selectspec(
-										$userid,
-										$params['parentid']
-									)
-								);
+								$parent = qa_db_select_with_pending(qa_db_full_post_selectspec($userid, $params['parentid']));
 								if($parent['type'] == 'A') {
-									$parent = qa_db_select_with_pending(
-										qa_db_full_post_selectspec(
-											$userid,
-											$parent['parentid']
-										)
-									);
+									$parent = qa_db_select_with_pending(qa_db_full_post_selectspec($userid, $parent['parentid']));
 								}
 
 								$anchor = qa_anchor((strpos($event['event'],'a_') === 0 || strpos($event['event'],'in_a_') === 0?'A':'C'), $params['postid']);
@@ -245,7 +235,9 @@
 								}
 								if($params['title'] !== null) {
 									$qTitle = qa_db_read_one_value( qa_db_query_sub("SELECT title FROM `^posts` WHERE `postid` = ".$params['postid']." LIMIT 1"), true );
-									if(!isset($qTitle)) $qTitle = '';
+									if (!isset($qTitle)) {
+										$qTitle = '';
+									}
 									$activity_url = qa_path_absolute(qa_q_request($params['postid'], $qTitle), null, null);
 									$linkTitle = $qTitle;
 									$link = '<a target="_blank" href="'.$activity_url.'">'.$qTitle.'</a>';
