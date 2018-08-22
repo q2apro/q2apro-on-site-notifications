@@ -96,7 +96,7 @@
 							FROM_UNIXTIME(#) <= datetime
 							AND
 							(e.userid=# AND e.event LIKE "in_%")
-							OR ((e.event LIKE "u_message" OR e.event LIKE "u_wall_post") AND e.params LIKE "userid=#\t%")
+							OR (e.event IN ("u_message", "u_wall_post") AND e.params LIKE "userid=#\t%")
 						ORDER BY datetime DESC
 						LIMIT #', // Limit
 						qa_opt('q2apro_onsitenotifications_maxage'), // events of last x days
