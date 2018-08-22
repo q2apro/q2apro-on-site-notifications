@@ -333,11 +333,7 @@
 					header("Content-type: text/html; charset=utf-8");
 					echo $notifyBoxEvents;
 
-					// update database entry so that all user notifications are seen as read
-					qa_db_query_sub(
-						'INSERT INTO ^usermeta (user_id,meta_key,meta_value) VALUES(#,$,NOW()) ON DUPLICATE KEY UPDATE meta_value=NOW()',
-						$userid, 'visited_profile'
-					);
+					$this->markAsReadForUserId($userid);
 
 					exit();
 				} // END AJAX RETURN
@@ -363,6 +359,19 @@
 			}
 
 			return $qa_content;
+		}
+
+		/**
+		 * Update database entry so that all user notifications are seen as read
+		 *
+		 * @param $userid
+		 */
+		private function markAsReadForUserId($userid)
+		{
+			qa_db_query_sub(
+				'INSERT INTO ^usermeta (user_id,meta_key,meta_value) VALUES(#,$,NOW()) ON DUPLICATE KEY UPDATE meta_value=NOW()',
+				$userid, 'visited_profile'
+			);
 		}
 
 	}; // end class
