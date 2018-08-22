@@ -69,9 +69,6 @@
 					return;
 				}
 
-				// this is echoed via ajax success data
-				$notifyBoxEvents = '';
-
 				// ajax return all user events
 				if(isset($userid) && $transferString=='receiveNotify'){
 					$last_visit = qa_db_read_one_value(
@@ -178,7 +175,6 @@
 							<div id="nfyContainerInbox">
 						';
 
-					// BIG FOREACH
 					foreach($events as $postid_string => $event) {
 						// $postid_string, e.g. 32_1 (32 is postid, 1 is global event count)
 
@@ -209,7 +205,6 @@
 
 							$params = $this->getParamsAsArray($event);
 
-							$link = '';
 							$linkTitle = '';
 							$activity_url = '';
 
@@ -220,14 +215,13 @@
 								}
 
 								$parent = qa_db_select_with_pending(qa_db_full_post_selectspec($userid, $params['parentid']));
-								if($parent['type'] == 'A') {
+								if($parent['type'] === 'A') {
 									$parent = qa_db_select_with_pending(qa_db_full_post_selectspec($userid, $parent['parentid']));
 								}
 
 								$anchor = qa_anchor((strpos($event['event'],'a_') === 0 || strpos($event['event'],'in_a_') === 0?'A':'C'), $params['postid']);
 								$activity_url = qa_path_absolute(qa_q_request($parent['postid'], $parent['title']), null, $anchor);
 								$linkTitle = $parent['title'];
-								$link = '<a target="_blank" href="'.$activity_url.'">'.$parent['title'].'</a>';
 							}
 							else if(isset($post)) { // question
 								if(!isset($params['title'])) {
@@ -240,13 +234,10 @@
 									}
 									$activity_url = qa_path_absolute(qa_q_request($params['postid'], $qTitle), null, null);
 									$linkTitle = $qTitle;
-									$link = '<a target="_blank" href="'.$activity_url.'">'.$qTitle.'</a>';
 								}
 							}
 
 							// event name
-							$eventName = '';
-							$itemIcon = '';
 							if($type=='in_c_question' || $type=='in_c_answer' || $type=='in_c_comment') { // added in_c_comment
 								$eventName = qa_lang('q2apro_onsitenotifications_lang/in_comment');
 								$itemIcon = '<div class="nicon ncomment"></div>';
