@@ -27,11 +27,15 @@
 
 		// initialize db-table 'eventlog' if it does not exist yet
 		function init_queries($tableslc) {
+			require_once QA_INCLUDE_DIR.'qa-app-users.php';
+			require_once QA_INCLUDE_DIR.'qa-db-maxima.php';
+			require_once QA_INCLUDE_DIR.'qa-app-options.php';
+
+			$result = array();
 
 			$tablename = qa_db_add_table_prefix('eventlog');
 
 			// check if event logger has been initialized already (check for one of the options and existing table)
-			require_once QA_INCLUDE_DIR.'qa-app-options.php';
 			if(qa_opt('event_logger_to_database') && in_array($tablename, $tableslc)) {
 				// options exist, but check if really enabled
 				if(qa_opt('event_logger_to_database')=='' && qa_opt('event_logger_to_files')=='') {
@@ -49,10 +53,7 @@
 				qa_opt('event_logger_hide_header', '');
 
 				if (!in_array($tablename, $tableslc)) {
-					require_once QA_INCLUDE_DIR.'qa-app-users.php';
-					require_once QA_INCLUDE_DIR.'qa-db-maxima.php';
-
-					return 'CREATE TABLE IF NOT EXISTS ^eventlog ('.
+					$result[] = 'CREATE TABLE IF NOT EXISTS ^eventlog ('.
 						'datetime DATETIME NOT NULL,'.
 						'ipaddress VARCHAR (15) CHARACTER SET ascii,'.
 						'userid '.qa_get_mysql_user_column_type().','.
@@ -73,7 +74,7 @@
 			// create table qa_usermeta which stores the last visit of each user
 			$tablename2 = qa_db_add_table_prefix('usermeta');
 			if (!in_array($tablename2, $tableslc)) {
-				qa_db_query_sub(
+				$result[] =
 					'CREATE TABLE IF NOT EXISTS ^usermeta (
 					meta_id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 					user_id bigint(20) unsigned NOT NULL,
@@ -82,9 +83,26 @@
 					PRIMARY KEY (meta_id),
 					UNIQUE (user_id,meta_key)
 					) ENGINE=MyISAM  DEFAULT CHARSET=utf8'
-				);
+				;
 			}
 
+			// create table qa_usermeta which stores the last visit of each user
+			$tablename3 = qa_db_add_table_prefix('q2apro_osn_plugin_notifications');
+			if (!in_array($tablename3, $tableslc)) {
+				$result[] =
+					'CREATE TABLE IF NOT EXISTS ^q2apro_osn_plugin_notifications (' .
+					'plugin_id VARCHAR(50) NOT NULL, ' .
+					'event_text VARCHAR(2000) NOT NULL, ' .
+					'icon_class VARCHAR(50) NOT NULL, ' .
+					'user_id ' . qa_get_mysql_user_column_type() . ' NOT NULL, ' .
+					'created_at DATETIME NOT NULL, ' .
+					'KEY ^q2apro_osn_plugin_notifications_idx1 (user_id, created_at), ' .
+					'KEY ^q2apro_osn_plugin_notifications_idx2 (plugin_id, user_id, created_at)' .
+					') ENGINE=MyISAM  DEFAULT CHARSET=utf8'
+				;
+			}
+
+			return $result;
 		} // end init_queries
 
 		// option's value is requested but the option has not yet been set

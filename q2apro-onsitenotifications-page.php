@@ -78,29 +78,7 @@
 						), true
 					);
 
-					$maxEvents = qa_opt('q2apro_onsitenotifications_maxevshow'); // maximal events to show
-
-					// query all new events of user
-					$event_query = qa_db_query_sub(
-						'SELECT 
-							e.event, 
-							e.userid, 
-							BINARY e.params as params, 
-							UNIX_TIMESTAMP(e.datetime) AS datetime
-						FROM 
-							^eventlog AS e
-						WHERE
-							FROM_UNIXTIME(#) <= datetime
-							AND
-							(e.userid=# AND e.event LIKE "in_%")
-							OR (e.event IN ("u_message", "u_wall_post") AND e.params LIKE "userid=#\t%")
-						ORDER BY datetime DESC
-						LIMIT #', // Limit
-						qa_opt('q2apro_onsitenotifications_maxage'), // events of last x days
-						$userid,
-						$userid,
-						$maxEvents
-					);
+					$event_query = $this->getEventsForUser($userid);
 
 					$events = array();
 					$postids = array();
@@ -151,6 +129,9 @@
 
 							$events[$m[1].'_'.$count++] = $event;
 						}
+						else if($event['event'] === 'q2apro_osn_plugin') {
+							$events['_' . $count++] = $event;
+						}
 					}
 
 					// get post info, also make sure that post exists
@@ -177,7 +158,6 @@
 
 					foreach($events as $postid_string => $event) {
 						// $postid_string, e.g. 32_1 (32 is postid, 1 is global event count)
-
 						$type = $event['event'];
 
 						if($type=='u_message') {
@@ -196,6 +176,12 @@
 							$activity_url = qa_path_absolute('user').'/'.$userhandle.'/wall';
 							$linkTitle = qa_lang('q2apro_onsitenotifications_lang/wallpost_from').' '.$event['handle'];
 						}
+						else if($type=='q2apro_osn_plugin') {
+							$eventName = ''; // Just to make compiler happy
+							$itemIcon = '<div class="nicon ' . $event['icon_class'] . '"></div>';
+							$activity_url = ''; // Just to make compiler happy
+							$linkTitle = ''; // Just to make compiler happy
+						}
 						else {
 							// a_post, c_post, q_vote_up, a_vote_up, q_vote_down, a_vote_down
 							$postid = preg_replace('/_.*/','', $postid_string);
@@ -205,8 +191,8 @@
 
 							$params = $this->getParamsAsArray($event);
 
-							$linkTitle = '';
 							$activity_url = '';
+							$linkTitle = '';
 
 							// comment or answer
 							if(isset($post) && strpos($event['event'],'q_') !== 0 && strpos($event['event'],'in_q_') !== 0) {
@@ -277,15 +263,18 @@
 						}
 
 						// if post has been deleted there is no link, dont output
-						if($activity_url=='') {
+						if($activity_url == '' && $type !== 'q2apro_osn_plugin') {
 							continue;
-						}
-						else {
+						} else {
+							$eventHtml = $type === 'q2apro_osn_plugin'
+								? $event['event_text']
+								: $eventName . '<a ' . ($type == 'u_message' || $type == 'u_wall_post' ? 'title="' . $event['message'] . '" ' : '') . 'href="' . $activity_url . '"' . (qa_opt('q2apro_onsitenotifications_newwindow') ? ' target="_blank"' : '') . '>' . htmlentities($linkTitle) . '</a>';
+
 							$notifyBoxEvents .= '<div class="itemBox'.$cssNewEv.'">
 								'.$itemIcon.'
 								<div class="nfyItemLine">
-									<p class="nfyWhat">'.$eventName.' 
-										<a '.($type=='u_message' || $type=='u_wall_post'?'title="'.$event['message'].'" ':'').'href="'.$activity_url.'"'.(qa_opt('q2apro_onsitenotifications_newwindow')?' target="_blank"':'').'>'.htmlentities($linkTitle).'</a>
+									<p class="nfyWhat">
+										'.$eventHtml . '
 									</p>
 									<p class="nfyTime">'.$when.'</p>
 								</div>
@@ -365,6 +354,54 @@
 			}
 
 			return $params;
+		}
+
+		/**
+		 * @param $userid
+		 * @return mixed
+		 */
+		private function getEventsForUser($userid)
+		{
+			$maxEvents = qa_opt('q2apro_onsitenotifications_maxevshow'); // maximal events to show
+
+			$currentTime = (int)qa_opt('db_time');
+			$maxageTime = $currentTime - (int)qa_opt('q2apro_onsitenotifications_maxage') * 86400;
+
+			$event_query = qa_db_query_sub(
+				'(
+					SELECT
+						e.event,
+						e.userid,
+						BINARY e.params as params,
+						UNIX_TIMESTAMP(e.datetime) AS datetime,
+						"" `icon_class`,
+						"" event_text
+					FROM ^eventlog e
+					WHERE
+						FROM_UNIXTIME(#) <= datetime AND
+						(e.userid = # AND e.event LIKE "in_%") OR
+						(e.event IN ("u_message", "u_wall_post") AND e.params LIKE "userid=#\t%")
+				) UNION (
+					SELECT
+						"q2apro_osn_plugin" `event`,
+						`user_id` `userid`,
+						"" `params`,
+						UNIX_TIMESTAMP(`created_at`) `datetime`,
+						`icon_class`,
+						`event_text`
+					FROM ^q2apro_osn_plugin_notifications
+					WHERE FROM_UNIXTIME(#) <= `created_at` AND `user_id` = #
+				)
+				ORDER BY datetime DESC
+				LIMIT #', // Limit
+				$maxageTime, // events of last x days
+				$userid,
+				$userid,
+				$maxageTime, // events of last x days
+				$userid,
+				$maxEvents
+			);
+			return $event_query;
 		}
 
 	}; // end class

@@ -35,6 +35,16 @@
 
 			if(!qa_opt('event_logger_to_database')) return;
 
+			if ($event === 'q2apro_osn_plugin') {
+				qa_db_query_sub(
+					'INSERT INTO ^q2apro_osn_plugin_notifications(plugin_id, event_text, icon_class, user_id, created_at) ' .
+					'VALUES ($, $, $, $, NOW())',
+					$params['plugin_id'], $params['event_text'], $params['icon_class'], $params['user_id']
+				);
+
+				return;
+			}
+
 			// needed for function qa_post_userid_to_handle()
 			require_once QA_INCLUDE_DIR.'qa-app-posts.php';
 

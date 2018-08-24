@@ -107,36 +107,10 @@
 			$userid = qa_get_logged_in_userid();
 			if(qa_opt('q2apro_onsitenotifications_enabled') && $userid) {
 
-				$last_visit = qa_db_read_one_value(
-					qa_db_query_sub(
-						'SELECT UNIX_TIMESTAMP(meta_value) FROM ^usermeta WHERE user_id=# AND meta_key=$',
-						$userid, 'visited_profile'
-					),
-					true
-				);
-
-				// first time visitor, we set the last visit manually in the past
-				if(is_null($last_visit)) {
-					$last_visit = '1981-03-31 06:25:00';
-				}
+				$last_visit = $this->getLastVisitForUser($userid);
 
 				// select and count all in_eventcount that are newer as last visit
-				$eventcount = qa_db_read_one_value(
-					qa_db_query_sub(
-						'SELECT COUNT(event) FROM ^eventlog 
-								WHERE FROM_UNIXTIME(#) <= datetime 
-								AND DATE_SUB(CURDATE(),INTERVAL # DAY) <= datetime 
-								AND (
-								(userid=# AND event LIKE "in_%")
-								OR (event IN ("u_message", "u_wall_post") AND params LIKE "userid=#\t%")
-								)
-								',
-								$last_visit,
-								qa_opt('q2apro_onsitenotifications_maxage'),
-								$userid,
-								$userid
-					)
-				);
+				$eventcount = $this->getEventCount($last_visit, $userid);
 
 				// q2apro notification tooltip
 				if ($eventcount > 0) {
@@ -164,8 +138,56 @@
 			qa_html_theme_base::doctype();
 		}
 
-	} // end qa_html_theme_layer
+		/**
+		 * @param int $last_visit
+		 * @param mixed $userid
+		 * @return int
+		 */
+		private function getEventCount($last_visit, $userid)
+		{
+			$currentTime = (int)qa_opt('db_time');
+			$maxageTime = $currentTime - (int)qa_opt('q2apro_onsitenotifications_maxage') * 86400;
+			$fromTime = max($maxageTime, $last_visit);
 
-/*
-	Omit PHP closing tag to help avoid accidental output
-*/
+			$eventlogCount = qa_db_read_one_value(qa_db_query_sub(
+				'SELECT COUNT(event) FROM ^eventlog ' .
+				'WHERE datetime >= FROM_UNIXTIME(#) AND (' .
+				'(userid = # AND event LIKE "in_%") OR ' .
+				'(event IN ("u_message", "u_wall_post") AND params LIKE "userid=#\t%")' .
+				')',
+				$last_visit,
+				$userid,
+				$userid
+			));
+
+			$pluginCount = qa_db_read_one_value(qa_db_query_sub(
+				'SELECT COUNT(*) FROM ^q2apro_osn_plugin_notifications ' .
+				'WHERE user_id = # AND created_at >= FROM_UNIXTIME(#)',
+				$userid, $fromTime
+			));
+
+			return $eventlogCount + $pluginCount;
+		}
+
+		/**
+		 * @param $userid
+		 * @return int
+		 */
+		private function getLastVisitForUser($userid)
+		{
+			$last_visit = (int)qa_db_read_one_value(
+				qa_db_query_sub(
+					'SELECT UNIX_TIMESTAMP(meta_value) FROM ^usermeta WHERE user_id=# AND meta_key=$',
+					$userid, 'visited_profile'
+				),
+				true
+			);
+
+			// first time visitor, we set the last visit manually in the past
+			if (is_null($last_visit)) {
+				$last_visit = 0;
+			}
+			return $last_visit;
+		}
+
+	} // end qa_html_theme_layer
