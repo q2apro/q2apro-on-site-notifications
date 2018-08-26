@@ -10,8 +10,8 @@
 	Plugin License: GPLv3
 	Plugin Minimum Question2Answer Version: → see qa-plugin.php
 	Plugin Update Check URI: https://raw.githubusercontent.com/q2apro/q2apro-on-site-notifications/master/qa-plugin.php
-	
-	This program is free software. You can redistribute and modify it 
+
+	This program is free software. You can redistribute and modify it
 	under the terms of the GNU General Public License.
 
 	This program is distributed in the hope that it will be useful,
@@ -27,11 +27,15 @@
 
 		// initialize db-table 'eventlog' if it does not exist yet
 		function init_queries($tableslc) {
-		
-			$tablename = qa_db_add_table_prefix('eventlog');
-			
-			// check if event logger has been initialized already (check for one of the options and existing table)
+			require_once QA_INCLUDE_DIR.'qa-app-users.php';
+			require_once QA_INCLUDE_DIR.'qa-db-maxima.php';
 			require_once QA_INCLUDE_DIR.'qa-app-options.php';
+
+			$result = array();
+
+			$tablename = qa_db_add_table_prefix('eventlog');
+
+			// check if event logger has been initialized already (check for one of the options and existing table)
 			if(qa_opt('event_logger_to_database') && in_array($tablename, $tableslc)) {
 				// options exist, but check if really enabled
 				if(qa_opt('event_logger_to_database')=='' && qa_opt('event_logger_to_files')=='') {
@@ -41,18 +45,15 @@
 			}
 			else {
 				// not enabled, let's enable the event logger
-			
+
 				// set option values for event logger
 				qa_opt('event_logger_to_database', 1);
 				qa_opt('event_logger_to_files', '');
 				qa_opt('event_logger_directory', '');
 				qa_opt('event_logger_hide_header', '');
-			
-				if (!in_array($tablename, $tableslc)) {
-					require_once QA_INCLUDE_DIR.'qa-app-users.php';
-					require_once QA_INCLUDE_DIR.'qa-db-maxima.php';
 
-					return 'CREATE TABLE IF NOT EXISTS ^eventlog ('.
+				if (!in_array($tablename, $tableslc)) {
+					$result[] = 'CREATE TABLE IF NOT EXISTS ^eventlog ('.
 						'datetime DATETIME NOT NULL,'.
 						'ipaddress VARCHAR (15) CHARACTER SET ascii,'.
 						'userid '.qa_get_mysql_user_column_type().','.
@@ -69,11 +70,11 @@
 			}
 			// memo: would be best to check if plugin is installed in qa-plugin folder or using plugin_exists()
 			// however this functionality is not available in q2a v1.6.3
-			
+
 			// create table qa_usermeta which stores the last visit of each user
 			$tablename2 = qa_db_add_table_prefix('usermeta');
 			if (!in_array($tablename2, $tableslc)) {
-				qa_db_query_sub(
+				$result[] =
 					'CREATE TABLE IF NOT EXISTS ^usermeta (
 					meta_id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 					user_id bigint(20) unsigned NOT NULL,
@@ -82,9 +83,26 @@
 					PRIMARY KEY (meta_id),
 					UNIQUE (user_id,meta_key)
 					) ENGINE=MyISAM  DEFAULT CHARSET=utf8'
-				);
+				;
 			}
 
+			// create table qa_usermeta which stores the last visit of each user
+			$tablename3 = qa_db_add_table_prefix('q2apro_osn_plugin_notifications');
+			if (!in_array($tablename3, $tableslc)) {
+				$result[] =
+					'CREATE TABLE IF NOT EXISTS ^q2apro_osn_plugin_notifications (' .
+					'plugin_id VARCHAR(50) NOT NULL, ' .
+					'event_text VARCHAR(2000) NOT NULL, ' .
+					'icon_class VARCHAR(50) NOT NULL, ' .
+					'user_id ' . qa_get_mysql_user_column_type() . ' NOT NULL, ' .
+					'created_at DATETIME NOT NULL, ' .
+					'KEY ^q2apro_osn_plugin_notifications_idx1 (user_id, created_at), ' .
+					'KEY ^q2apro_osn_plugin_notifications_idx2 (plugin_id, user_id, created_at)' .
+					') ENGINE=MyISAM  DEFAULT CHARSET=utf8'
+				;
+			}
+
+			return $result;
 		} // end init_queries
 
 		// option's value is requested but the option has not yet been set
@@ -106,12 +124,12 @@
 					return null;
 			}
 		}
-		
+
 		function allow_template($template) {
 			return ($template!='admin');
 		}
-		
-		function admin_form(&$qa_content){                       
+
+		function admin_form(&$qa_content){
 
 			// process the admin form if admin hit Save-Changes-button
 			$ok = null;
@@ -123,18 +141,18 @@
 				qa_opt('q2apro_onsitenotifications_rtl', (bool)qa_post_text('q2apro_onsitenotifications_rtl')); // int
 				$ok = qa_lang('admin/options_saved');
 			}
-			
+
 			// form fields to display frontend for admin
 			$fields = array();
-			
+
 			$fields[] = array(
 				'type' => 'checkbox',
 				'label' => qa_lang('q2apro_onsitenotifications_lang/enable_plugin'),
 				'tags' => 'name="q2apro_onsitenotifications_enabled"',
 				'value' => qa_opt('q2apro_onsitenotifications_enabled'),
 			);
-			
-			
+
+
 			$fields[] = array(
 				'type' => 'input',
 				'label' => qa_lang('q2apro_onsitenotifications_lang/no_notifications_label'),
@@ -165,13 +183,13 @@
 
 			$fields[] = array(
 				'type' => 'static',
-				'note' => '<span style="font-size:12px;color:#789;">'.strtr( qa_lang('q2apro_onsitenotifications_lang/contact'), array( 
+				'note' => '<span style="font-size:12px;color:#789;">'.strtr( qa_lang('q2apro_onsitenotifications_lang/contact'), array(
 							'^1' => '<a target="_blank" href="http://www.q2apro.com/plugins/on-site-notifications">',
 							'^2' => '</a>'
 						  )).'</span>',
 			);
-			
-			return array(           
+
+			return array(
 				'ok' => ($ok && !isset($error)) ? $ok : null,
 				'fields' => $fields,
 				'buttons' => array(
