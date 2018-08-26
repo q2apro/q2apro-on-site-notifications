@@ -1,0 +1,14 @@
+{
+    "name": "On-Site-Notifications",
+    "uri": "https://github.com/q2apro/q2apro-on-site-notifications",
+    "description": "Facebook-like / Stackoverflow-like notifications on your question2answer forum that can replace all email-notifications.",
+    "version": "1.3.0",
+    "date": "2018-08-23",
+    "author": "q2apro.com",
+    "author_uri": "http://www.question2answer.org/qa/user/q2apro",
+    "license": "GPLv3",
+    "update_uri": "https://raw.githubusercontent.com/q2apro/q2apro-on-site-notifications/master/metadata.json",
+    "min_q2a": "1.6.0",
+    "min_php": "5.1.6",
+    "load_order": "after_db_init"
+}
