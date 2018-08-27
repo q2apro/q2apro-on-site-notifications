@@ -28,7 +28,7 @@
 	 * Link to plugin file: https://github.com/NoahY/q2a-history/blob/master/qa-history-check.php
 	 */
 
-	class q2apro_history_check {
+	class q2apro_onsitenotifications_event {
 	// main event processing function
 
 		function process_event($event, $userid, $handle, $cookieid, $params) {
