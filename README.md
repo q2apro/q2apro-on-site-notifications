@@ -74,8 +74,8 @@ All code herein is [OpenSource](http://www.gnu.org/licenses/gpl.html). Feel free
 
 If you use the plugin:
 
-  * Visit [www.q2apro.com](http://www.q2apro.com) to get more [free and premium plugins](http://www.q2apro.com/plugins).
-  * Translate the plugin into your language and send us the language file.
-  * Say thank you by [donating 5 to 10 USD](https://www.paypal.me/q2apro) to the developers.
+  * Translate the plugin into your language.
+  * Report any bug you find.
+  * Consider a painless donation to https://www.paypal.me/q2apro
 
-Have fun!
+Have fun! Life is short.
