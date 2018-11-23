@@ -268,7 +268,7 @@
 						} else {
 							$eventHtml = $type === 'q2apro_osn_plugin'
 								? $event['event_text']
-								: $eventName . '<a ' . ($type == 'u_message' || $type == 'u_wall_post' ? 'title="' . $event['message'] . '" ' : '') . 'href="' . $activity_url . '"' . (qa_opt('q2apro_onsitenotifications_newwindow') ? ' target="_blank"' : '') . '>' . htmlentities($linkTitle) . '</a>';
+								: $eventName . ' <a ' . ($type == 'u_message' || $type == 'u_wall_post' ? 'title="' . $event['message'] . '" ' : '') . 'href="' . $activity_url . '"' . (qa_opt('q2apro_onsitenotifications_newwindow') ? ' target="_blank"' : '') . '>' . htmlentities($linkTitle) . '</a>';
 
 							$notifyBoxEvents .= '<div class="itemBox'.$cssNewEv.'">
 								'.$itemIcon.'

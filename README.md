@@ -50,7 +50,7 @@ needs to be fired with the `q2apro_osn_plugin` event id and with the following p
 ```php
 qa_report_event('q2apro_osn_plugin', qa_get_logged_in_userid(), qa_get_logged_in_handle(), null, array(
     'plugin_id' => 'my_plugin_id',
-    'user_id' => $mentionedUserId,
+    'user_id' => $receiverUserId,
     'event_text' => '<a href="http://site.com/user/user1">user1</a> mentioned you in <a href="http://site.com/154">this post</a>',
     'icon_class' => 'my_plugin_id_and_css_class',
 ));
