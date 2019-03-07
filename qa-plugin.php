@@ -1,15 +1,15 @@
 <?php
 /*
 	Plugin Name: On-Site-Notifications
-	Plugin URI: http://www.q2apro.com/plugins/on-site-notifications
+	Plugin URI: 
 	Plugin Description: Facebook-like / Stackoverflow-like notifications on your question2answer forum that can replace all email-notifications.
 	Plugin Version: 1.3.0
 	Plugin Date: 2018-08-23
 	Plugin Author: q2apro.com
-	Plugin Author URI: http://www.q2apro.com/
+	Plugin Author URI: q2apro
 	Plugin License: GPLv3
 	Plugin Minimum Question2Answer Version: 1.6
-	Plugin Update Check URI: https://raw.githubusercontent.com/q2apro/q2apro-on-site-notifications/master/qa-plugin.php
+	Plugin Update Check URI: 
 
 	This program is free software. You can redistribute and modify it
 	under the terms of the GNU General Public License.
