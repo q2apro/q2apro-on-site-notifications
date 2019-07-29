@@ -284,9 +284,6 @@
 
 					$notifyBoxEvents .= '</div>
 						</div>
-						<div class="nfyFooter">
-							<a href="http://www.q2apro.com/">by q2apro.com</a>
-						</div>
 					</div>
 					';
 
