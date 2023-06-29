@@ -1,0 +1,226 @@
+/* On Site Notifications - Q2A */
+
+.qa-nav-user {
+	position:relative;
+	white-space:normal;
+}
+#osnbox {
+	display: inline-block;
+	border-radius: 30px;
+	max-width: 43px;
+    max-height: 43px;
+}
+.nfyWrap {
+	position: absolute;
+	top: -1px;
+	right: 0;
+	width: 460px;
+	background: #fefefe;
+	padding: 0;
+	box-shadow: 4px 4px 7px #ababab;
+	z-index: 999;
+	-webkit-box-shadow: 0 2px 3px 0 rgb(60 64 67 / 30%), 0 6px 10px 4px rgb(60 64 67 / 15%);
+    -moz-box-shadow: 0 2px 3px 0 rgb(60 64 67 / 30%), 0 6px 10px 4px rgb(60 64 67 / 15%);
+    box-shadow: 0 2px 3px 0 rgb(60 64 67 / 30%), 0 6px 10px 4px rgb(60 64 67 / 15%);
+	overflow: hidden;
+}
+
+.nfyTop {
+	font-size: 16px;
+	line-height: normal;
+	background: #EEEEEE;
+	padding: 14px 12px;
+	color: #333;
+	border-radius: 3px 3px 0 0;
+	cursor: auto;
+}
+
+.nfyWrap .nfyContainer {
+	width: 100%;
+	overflow-y: auto;
+	padding: 0;
+	max-height: 65vh;
+	cursor: initial;
+	overflow-x: hidden;
+}
+#nfyContainerInbox {
+    /* padding: 0.6rem 0; */
+	padding: 1px 0;
+}
+.nfyWrap .nfyFooter {
+	padding: 5px;
+	background: #fefefe;
+	text-align: right;
+	font-size: 10px;
+}
+.nfyWrap .nfyFooter a {
+	color: #aaa;
+	cursor: pointer;
+}
+.itemBox {
+    display: block;
+	padding-right: 1rem; /* Fix for small screen edge */
+    border-bottom: 1px solid #eee;
+    cursor: auto;
+}
+.itemBox:hover {
+    background-color: #F5F5F5;
+}
+
+.itemBox a {
+    display: block;
+    padding: 12px 0px;
+	text-decoration: none;
+}
+
+.nfyWrap .itemBox-new {
+	background-color: #E3F2FD;
+    padding: 12px 0px;
+    border-bottom: 1px solid #eee;
+    border-left: 4px solid #2196f3;
+}
+.nfyWrap .itemBoxNew {
+	background-color: #ffffe2;
+}
+
+.itemBox-new a {
+    display: block;
+}
+
+.nfyWrap .nfyItemLine {
+	display: table-cell;
+	color: inherit;
+	font-size: 12px;
+	line-height: normal;
+}
+.nfyWrap .nfyItemLine a, .nfyWrap .nfyItemLine a:hover {
+    color: #039BE5;
+	font-size: inherit;
+}
+
+.nfyWrap .nfyItemLine p {
+	display: block;
+	line-height: 1.2;
+}
+.nfyWrap .siteLink {
+	font-size: 9px;
+	text-decoration: none;
+	font-weight: normal;
+	margin-bottom: 4px;
+	display: inline-block;
+}
+.nfyWrap .nfyItemLine a:hover {
+	color: #55F;
+}
+.nicon {
+	display: table-cell;
+	width: 4rem;
+	height: 48px;
+	position: relative;
+	color: #9E9E9E;
+	vertical-align: top;
+	text-align: center;
+}
+
+.nfyWhat {
+    font-size: 14px;
+	color: #424242;
+	margin-bottom: 6px;
+}
+.nfyTime {
+	color: #888;
+	margin-bottom: 0;
+}
+.qa-history-event-nill {
+	display: inline-block;
+	width: 15px;
+	height: 15px;
+	overflow: hidden;
+	border: 0;
+	border-radius: 10px;
+	box-shadow: 0 1px 1px #999;
+	text-align: center;
+	background-color: #999;
+	font-style: italic;
+	font-weight: bold;
+	color: #FFF;
+	cursor: pointer;
+}
+.osn-bell {
+    position: relative;
+	display: inline-block;
+    padding: .5rem;
+	color: inherit;
+	text-align: center;
+	cursor: pointer;
+}
+.osn-new-events-link:hover {
+	
+}
+
+/* notifybub (N) */
+.ntfy-event-new, .ntfy-event-nill {
+    line-height: 11px;
+    padding: 3px 6px;
+    margin-left: -10px;
+	background-color: #1a73e8;
+    border-radius: 4px;
+    color: #ffffff;
+    position: absolute;
+    top: 10px;
+}
+.ntfy-event-nill {
+    opacity: 0;
+}
+.ntfy-event-new {
+    background-color: #2196F3;
+    color: #ffffff;
+	opacity: 1;
+	z-index: 1;
+}
+
+.notifybub {
+	position: absolute;
+    top: 4px;
+    left: 75%;
+	font-size: 12px;
+    line-height: 1;
+    padding: 2px 5px ;
+    text-align: center;
+    border: 0 ;
+}
+
+#nfyReadClose {
+    display: inline-block;
+	vertical-align: middle;
+	float: right;
+    cursor: pointer;
+    color: #333;
+    padding: 6px 10px;
+    margin-top: -7px;
+    background-color: rgb(0 0 0 / 10%);
+    border-radius: 50px;
+}
+#nfyReadClose:hover {
+    background-color: rgb(0 0 0 / 15%);
+}
+
+/* snow flat theme */
+.qam-account-items-wrapper #osnbox .osn-bell {
+	fill: #ffffff;
+}
+#osnbox ~ #qam-account-toggle {
+    display: inline-block;
+}
+.qam-account-items-wrapper .ntfy-event-new, .qam-account-items-wrapper .ntfy-event-nill {
+	padding: 4px 7px;
+}
+.qam-account-items-wrapper .nfyWrap {
+	left: -427px;
+    top: 18px;
+}
+.qam-account-items-wrapper .nfyWrap, .qam-account-items-wrapper .nfyWrap .nfyContainer p {
+	/* disable snow flat's global border-box */
+	box-sizing: content-box ;
+}
+
