@@ -29,29 +29,27 @@
 			qa_html_theme_base::head_script();
 			// only load if enabled and user logged-in
 			if(qa_opt('q2apro_onsitenotifications_enabled') && qa_is_logged_in()) {
-				$this->output('<script type="text/javascript">
-						var eventnotifyAjaxURL = "'.qa_path('eventnotify').'";
-					</script>');
-				$this->output('<script type="text/javascript" src="'.QA_HTML_THEME_LAYER_URLTOROOT.'script.js"></script>');
-				$this->output('<link rel="stylesheet" type="text/css" href="'.QA_HTML_THEME_LAYER_URLTOROOT.'styles.css">');
-
-				// hack for snow flat theme (q2a v1.7) to show the notification icon outside the user's drop down
-				if(qa_opt('site_theme')=='SnowFlat') {
-					$this->output('
-					<script type="text/javascript">
-						$(document).ready(function(){
-							// $("#osnbox").detach().appendTo(".qam-account-items-wrapper");
-							var elem = $("#osnbox").detach();
-							$(".qam-account-items-wrapper").prepend(elem);
-						});
-					</script>
-					');
-				}
+				
+				// Don't Lazy Load these to avoid layout shift
+				$this->output('
+				<style type="text/css">
+					/* On Site Notifications - Q2A */
+					.ntfy-read, .ntfy-event-nill {
+						display: none;
+					}
+				</style>
+				');
+				
+				$this->output('
+					<link rel="preload" as="style" href="'.QA_HTML_THEME_LAYER_URLTOROOT.'css/osn-styles.min.css?v=32" onload="this.onload=null;this.rel=\'stylesheet\'">
+					<noscript><link rel="stylesheet" href="'.QA_HTML_THEME_LAYER_URLTOROOT.'css/osn-styles.min.css?v=32"></noscript>
+				');
 
 				// hack for snow theme (q2a v1.6) to position the notification box more to the right
 				if(qa_opt('site_theme')=='Snow') {
 					$this->output('
 					<style type="text/css">
+						/* On Site Notifications - Q2A */
 						#nfyWrap {
 							left:-100px;
 						}
@@ -63,6 +61,7 @@
 				if(qa_opt('q2apro_onsitenotifications_rtl')) {
 					$this->output('
 					<style type="text/css">
+						/* On Site Notifications - Q2A */
 						#nfyReadClose {
 							float:left !important;
 						}
@@ -98,6 +97,35 @@
 
 			} // end enabled
 		} // end head_script
+		
+		public function footer()
+		{
+			qa_html_theme_base::footer();
+			
+			if(qa_opt('q2apro_onsitenotifications_enabled') && qa_is_logged_in()) {
+				$this->output('
+				<script type="text/javascript">
+					// On Site Notifications - Q2A
+					var eventnotifyAjaxURL = "'.qa_path('eventnotify').'";
+				</script>
+				');
+				$this->output('<script type="text/javascript" src="'.QA_HTML_THEME_LAYER_URLTOROOT.'js/script.js?v=32"></script>');
+
+				// hack for snow flat theme (q2a v1.7) to show the notification icon outside the user's drop down
+				if(qa_opt('site_theme')=='SnowFlat') {
+					$this->output('
+					<script type="text/javascript">
+						// On Site Notifications - Q2A
+						$(document).ready(function(){
+							// $("#osnbox").detach().appendTo(".qam-account-items-wrapper");
+							var elem = $("#osnbox").detach();
+							$(".qam-account-items-wrapper").prepend(elem);
+						});
+					</script>
+					');
+				}
+			}
+		}
 
 		function doctype() {
 			/* The following code originates from q2a plugin "History" by NoahY and has been modified by q2apro.com
@@ -128,7 +156,10 @@
 				}
 
 				$html = '<div id="osnbox">
-							<a class="osn-new-events-link" title="'.$tooltip.'"><span class="notifybub ntfy-event-'. $classSuffix.'">'.$eventcount.'</span></a>
+							<div class="osn-new-events-link osn-bell" title="'.$tooltip.'">
+								<svg xmlns="http://www.w3.org/2000/svg" class="osn-svg" height="24" width="24" viewbox="0 0 50 50"><path d="M8 38v-3h4.2V19.7q0-4.2 2.475-7.475Q17.15 8.95 21.2 8.1V6.65q0-1.15.825-1.9T24 4q1.15 0 1.975.75.825.75.825 1.9V8.1q4.05.85 6.55 4.125t2.5 7.475V35H40v3Zm16-14.75ZM24 44q-1.6 0-2.8-1.175Q20 41.65 20 40h8q0 1.65-1.175 2.825Q25.65 44 24 44Zm-8.8-9h17.65V19.7q0-3.7-2.55-6.3-2.55-2.6-6.25-2.6t-6.275 2.6Q15.2 16 15.2 19.7Z"></path></svg>
+								<span class="notifybub ntfy-event-'. $classSuffix.'">'.$eventcount.'</span>
+							</div>
 						</div>';
 
 				// add to user panel

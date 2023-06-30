@@ -25,12 +25,12 @@
 $(document).ready(function(){
 
 	$(document).on('click', '#nfyReadClose', function() {
-		$('#nfyWrap').fadeOut(500, function(){$(this).remove() });
+		$('#nfyWrap').remove();
 	});
 	$('.osn-new-events-link').click(function() {
 		// user clicked on N bubble again to hide event-box
 		if( $('#nfyWrap').length>0 && $('#nfyWrap').is(':visible') ) {
-			$('#nfyWrap').fadeOut(500, function(){$(this).remove() });
+			$('#nfyWrap').remove();
 		}
 		else {
 			var evrequest = 'receiveNotify';
@@ -56,7 +56,7 @@ $(document).ready(function(){
 	$(document).click(function(event) { 
 		if($(event.target).parents().index($('#nfyWrap')) == -1) {
 			if($('#nfyWrap').is(':visible')) {
-				$('#nfyWrap').fadeOut(500, function(){$(this).remove() });
+				$('#nfyWrap').remove();
 			}
 		}        
 	})
