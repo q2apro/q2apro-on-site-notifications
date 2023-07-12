@@ -34,7 +34,7 @@
 		'no_notifications_label' => 'Pokud nejsou k dispozici žádné upozornění, zobrazí se na oznamovací bublině:', // Label for notify bubble on top, next to user name
 		'admin_maxeventsshow' => 'Maximální počet akcí poli oznámení:', // extra
 		'admin_newwindow' => 'Otevřít odkazy z oznamovacím poli v nové záložce prohlížeče.', // extra
-		'admin_rtl' => 'Zprava doleva (RTL) jazyce ( pro Araby ).', // extra (EN)
+		'admin_rtl' => 'Zprava doleva (RTL) jazyce ( Příklad: Araby ). (Pro Q2A v1.7 a starší aktivujte toto)', // extra (EN)
 
 		// plugin
 		'my_notifications' => 'Moje oznámení',

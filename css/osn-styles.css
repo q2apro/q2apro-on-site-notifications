@@ -4,12 +4,7 @@
 	position:relative;
 	white-space:normal;
 }
-#osnbox {
-	display: inline-block;
-	border-radius: 30px;
-	max-width: 43px;
-    max-height: 43px;
-}
+
 .nfyWrap {
 	position: absolute;
 	top: -1px;
@@ -148,11 +143,11 @@
 }
 .osn-bell {
     position: relative;
-	display: inline-block;
+    display: inline-block;
     padding: .5rem;
-	color: inherit;
-	text-align: center;
-	cursor: pointer;
+    color: inherit;
+    text-align: center;
+    cursor: pointer;
 }
 .osn-new-events-link:hover {
 	
@@ -163,22 +158,15 @@
     line-height: 11px;
     padding: 3px 6px;
     margin-left: -10px;
-	background-color: #7c39ff;
+	background-color: #1a73e8;
     border-radius: 4px;
     color: #ffffff;
     position: absolute;
     top: 10px;
 }
-.ntfy-read, .ntfy-event-nill {
-	display: none;
-}
-.ntfy-event-nill {
-    opacity: 0;
-}
 .ntfy-event-new {
     background-color: #2196F3;
     color: #ffffff;
-	opacity: 1;
 	z-index: 1;
 }
 
@@ -209,21 +197,11 @@
 }
 
 /* snow flat theme */
-.qam-account-items-wrapper #osnbox .osn-bell {
-	fill: #ffffff;
-}
 #osnbox ~ #qam-account-toggle {
     display: inline-block;
+	vertical-align: middle;
 }
-.qam-account-items-wrapper .ntfy-event-new, .qam-account-items-wrapper .ntfy-event-nill {
-	padding: 4px 7px;
-}
-.qam-account-items-wrapper .nfyWrap {
-	left: -427px;
-    top: 18px;
-}
-.qam-account-items-wrapper .nfyWrap, .qam-account-items-wrapper .nfyWrap .nfyContainer p {
-	/* disable snow flat's global border-box */
-	box-sizing: content-box ;
+.qam-account-items-wrapper #osnbox .osn-bell {
+	fill: #ffffff;
 }
 

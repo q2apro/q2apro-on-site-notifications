@@ -34,6 +34,14 @@
 				$this->output('
 				<style type="text/css">
 					/* On Site Notifications - Q2A */
+					#osnbox {
+						position: relative;
+						display: inline-block;
+						vertical-align: middle;
+						border-radius: 30px;
+						max-width: 43px;
+						max-height: 43px;
+					}
 					.ntfy-read, .ntfy-event-nill {
 						display: none;
 					}
@@ -41,8 +49,8 @@
 				');
 				
 				$this->output('
-					<link rel="preload" as="style" href="'.QA_HTML_THEME_LAYER_URLTOROOT.'css/osn-styles.min.css?v=32" onload="this.onload=null;this.rel=\'stylesheet\'">
-					<noscript><link rel="stylesheet" href="'.QA_HTML_THEME_LAYER_URLTOROOT.'css/osn-styles.min.css?v=32"></noscript>
+					<link rel="preload" as="style" href="'.QA_HTML_THEME_LAYER_URLTOROOT.'css/osn-styles.min.css?v=33" onload="this.onload=null;this.rel=\'stylesheet\'">
+					<noscript><link rel="stylesheet" href="'.QA_HTML_THEME_LAYER_URLTOROOT.'css/osn-styles.min.css?v=33"></noscript>
 				');
 
 				// hack for snow theme (q2a v1.6) to position the notification box more to the right
@@ -50,46 +58,37 @@
 					$this->output('
 					<style type="text/css">
 						/* On Site Notifications - Q2A */
-						#nfyWrap {
-							left:-100px;
+						.osn-bell {
+							padding: 0rem 0.4rem;
+						}
+						body.qa-theme-snow .nfyWrap {
+							left: 0;
+							right: initial !important;
 						}
 					</style>
 					');
 				}
 
 				// from q2a v1.7 we can use: $isRTL = $this->isRTL; but prior q2a versions can not, so we provide an admin option
-				if(qa_opt('q2apro_onsitenotifications_rtl')) {
+				if(qa_opt('q2apro_onsitenotifications_rtl') || $this->isRTL) {
 					$this->output('
 					<style type="text/css">
 						/* On Site Notifications - Q2A */
-						#nfyReadClose {
-							float:left !important;
-						}
-						.nfyWrap .nfyTop {
-							text-align:right;
+						.nfyWrap {
+							right: initial;
+							left: 0;
+							text-align: right !important;
 						}
 						.nfyContainer {
 							direction: rtl !important;
 							text-align: right !important;
 						}
-						.nfyWrap .nfyFooter {
-							text-align:left;
+						#nfyReadClose {
+							float: left;
 						}
-						.nfyIcon {
-							float:right;
-						}
-						.nfyWrap .nfyItemLine {
-							float:right;
-							margin-right:5px;
-						}
-						/* Snow Flat hacks */
-						.qam-account-items-wrapper #osnbox {
-							float: right;
-							margin-right:-30px;
-						}
-						.qam-account-items-wrapper .nfyWrap {
-							top: 31px;
-							left: 0;
+						.itemBox {
+							padding-right: initial;
+							padding-left: 1rem;
 						}
 					</style>
 					');
