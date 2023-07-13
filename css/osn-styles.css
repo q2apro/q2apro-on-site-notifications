@@ -61,6 +61,15 @@
 .itemBox:hover {
     background-color: #F5F5F5;
 }
+.itemBox-new {
+	background-color: #E3F2FD;
+    padding: 12px 0px;
+    border-bottom: 1px solid #eee;
+    border-left: 4px solid #2196f3;
+}
+.itemBox-new:hover {
+    background-color: #d5e5f1;
+}
 
 .itemBox a {
     display: block;
@@ -68,15 +77,7 @@
 	text-decoration: none;
 }
 
-.nfyWrap .itemBox-new {
-	background-color: #E3F2FD;
-    padding: 12px 0px;
-    border-bottom: 1px solid #eee;
-    border-left: 4px solid #2196f3;
-}
-.nfyWrap .itemBoxNew {
-	background-color: #ffffe2;
-}
+
 
 .itemBox-new a {
     display: block;
@@ -97,6 +98,14 @@
 	display: block;
 	line-height: 1.2;
 }
+.osn-gained-points {
+    display: block;
+    margin-top: -12px;
+    color: #00ab78;
+}
+.osn-gained-points-down {
+    color: #cc0000;
+}
 .nfyWrap .siteLink {
 	font-size: 9px;
 	text-decoration: none;
@@ -112,9 +121,12 @@
 	width: 4rem;
 	height: 48px;
 	position: relative;
-	color: #9E9E9E;
 	vertical-align: top;
 	text-align: center;
+}
+/* Visualy horizontal align with TimeStamp*/
+.nvoteup, .nvotedown, .nbestanswer {
+	margin-top:-3px;
 }
 
 .nfyWhat {
@@ -141,14 +153,7 @@
 	color: #FFF;
 	cursor: pointer;
 }
-.osn-bell {
-    position: relative;
-    display: inline-block;
-    padding: .5rem;
-    color: inherit;
-    text-align: center;
-    cursor: pointer;
-}
+
 .osn-new-events-link:hover {
 	
 }

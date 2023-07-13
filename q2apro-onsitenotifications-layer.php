@@ -42,6 +42,14 @@
 						max-width: 43px;
 						max-height: 43px;
 					}
+					.osn-bell {
+						position: relative;
+						display: inline-block;
+						padding: .5rem;
+						color: inherit;
+						text-align: center;
+						cursor: pointer;
+					}
 					.ntfy-read, .ntfy-event-nill {
 						display: none;
 					}
@@ -49,8 +57,8 @@
 				');
 				
 				$this->output('
-					<link rel="preload" as="style" href="'.QA_HTML_THEME_LAYER_URLTOROOT.'css/osn-styles.min.css?v=33" onload="this.onload=null;this.rel=\'stylesheet\'">
-					<noscript><link rel="stylesheet" href="'.QA_HTML_THEME_LAYER_URLTOROOT.'css/osn-styles.min.css?v=33"></noscript>
+					<link rel="preload" as="style" href="'.QA_HTML_THEME_LAYER_URLTOROOT.'css/osn-styles.min.css?v=41" onload="this.onload=null;this.rel=\'stylesheet\'">
+					<noscript><link rel="stylesheet" href="'.QA_HTML_THEME_LAYER_URLTOROOT.'css/osn-styles.min.css?v=41"></noscript>
 				');
 
 				// hack for snow theme (q2a v1.6) to position the notification box more to the right
