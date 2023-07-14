@@ -232,7 +232,7 @@
 								}
 
 								$anchor = qa_anchor((strpos($event['event'],'a_') === 0 || strpos($event['event'],'in_a_') === 0?'A':'C'), $params['postid']);
-								$activity_url = qa_path_absolute(qa_q_request($parent['postid'], $parent['title']), null, $anchor);
+								$activity_url = qa_q_path($parent['postid'], $parent['title'], true, strpos($event['event'],'in_a_') === 0?'A':'C', $params['postid']);
 								$linkTitle = $parent['title'];
 							}
 							else if(isset($post)) { // question
