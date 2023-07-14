@@ -33,8 +33,8 @@
 		'contact' => 'Si vous avez des questions, visitez  ^1q2apro.com^2.', // For questions please visit ^1q2apro.com^2
 		'no_notifications_label' => 'S\'il n\'y a pas de notifications, ce sera affiché sur la bulle notifier:', // Label for notify bubble on top, next to user name
 		'admin_maxeventsshow' => 'Nombre maximal d\'événements à afficher dans la boîte de notification:', // extra
-		'admin_newwindow' => 'Open links from notification box in a new browser tab.', // extra (EN)
-		'admin_rtl' => 'Right to Left (RTL) language.', // extra (EN)
+		'admin_newwindow' => 'Ouvrez les liens de notification dans un nouvel onglet du navigateur.', // extra (EN)
+		'admin_rtl' => 'Langues de droite à gauche (RTL). (Pour Q2A v1.7 et versions antérieures, activez cette option)', // extra (EN)
 
 		// plugin
 		'my_notifications' => 'Mes notifications',

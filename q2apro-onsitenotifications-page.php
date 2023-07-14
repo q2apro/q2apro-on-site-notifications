@@ -77,7 +77,24 @@
 							$userid
 						), true
 					);
-
+					
+					// Get amount of points per vote
+					$points_multiple = qa_db_read_one_value(qa_db_query_sub('SELECT content FROM ^options WHERE title="points_multiple"'));
+					$points_q_voted_up = qa_db_read_one_value(qa_db_query_sub('SELECT content FROM ^options WHERE title="points_per_q_voted_up"'));
+					$points_q_voted_down = qa_db_read_one_value(qa_db_query_sub('SELECT content FROM ^options WHERE title="points_per_q_voted_down"'));
+					
+					$points_a_voted_up = qa_db_read_one_value(qa_db_query_sub('SELECT content FROM ^options WHERE title="points_per_a_voted_up"'));
+					$points_a_voted_down = qa_db_read_one_value(qa_db_query_sub('SELECT content FROM ^options WHERE title="points_per_a_voted_down"'));
+					
+					$points_c_voted_up = qa_db_read_one_value(qa_db_query_sub('SELECT content FROM ^options WHERE title="points_per_c_voted_up"'));
+					$points_c_voted_down = qa_db_read_one_value(qa_db_query_sub('SELECT content FROM ^options WHERE title="points_per_c_voted_down"'));
+					
+					$points_a_selected = qa_db_read_one_value(qa_db_query_sub('SELECT content FROM ^options WHERE title="points_a_selected"'));
+					
+					// Set amount of points received
+					$osn_points_received = '';
+					
+					
 					$event_query = $this->getEventsForUser($userid);
 
 					$events = array();
@@ -89,6 +106,7 @@
 							$postids[] = (int)$m[1];
 							$events[$m[1].'_'.$count++] = $event;
 						}
+						
 						// private message
 						if($event['event']=='u_message') {
 							// example of $event['params']: userid=1  handle=admin  messageid=4  message=hi admin, how are you?
@@ -151,7 +169,7 @@
 
 					// List all events
 					$notifyBoxEvents = '<div id="nfyWrap" class="nfyWrap">
-						<div class="nfyTop">'.qa_lang('q2apro_onsitenotifications_lang/my_notifications').' <a id="nfyReadClose">'.qa_lang('q2apro_onsitenotifications_lang/close').' | × |</a> </div>
+						<div class="nfyTop">'.qa_lang('q2apro_onsitenotifications_lang/my_notifications').' <span id="nfyReadClose">'.qa_lang('q2apro_onsitenotifications_lang/close').' | × |</span></div>
 						<div class="nfyContainer">
 							<div id="nfyContainerInbox">
 						';
@@ -162,21 +180,21 @@
 
 						if($type=='u_message') {
 							$eventName = qa_lang('q2apro_onsitenotifications_lang/you_received').' ';
-							$itemIcon = '<div class="nicon nmessage">
-											<div class="osn-svg-wrapper">
-												<svg xmlns="http://www.w3.org/2000/svg" class="osn-svg" height="28" width="28" viewbox="0 0 48 48"><path d="M7 40q-1.2 0-2.1-.9Q4 38.2 4 37V11q0-1.2.9-2.1Q5.8 8 7 8h34q1.2 0 2.1.9.9.9.9 2.1v26q0 1.2-.9 2.1-.9.9-2.1.9Zm17-15.1L7 13.75V37h34V13.75Zm0-3L40.8 11H7.25ZM7 13.75V11v26Z"></path></svg>
-											</div>
-										</div>';
+							$itemIcon = '
+								<div class="osn-svg-wrapper nmessage">
+									<svg xmlns="http://www.w3.org/2000/svg" class="osn-svg" height="28" width="28" viewbox="0 0 48 48"><path d="M7 40q-1.2 0-2.1-.9Q4 38.2 4 37V11q0-1.2.9-2.1Q5.8 8 7 8h34q1.2 0 2.1.9.9.9.9 2.1v26q0 1.2-.9 2.1-.9.9-2.1.9Zm17-15.1L7 13.75V37h34V13.75Zm0-3L40.8 11H7.25ZM7 13.75V11v26Z"></path></svg>
+								</div>
+							';
 							$activity_url = qa_path_absolute('message').'/'.$event['handle'];
-							$linkTitle = qa_lang('q2apro_onsitenotifications_lang/message_from').' '.$event['handle'];
+							$linkTitle = qa_lang('q2apro_onsitenotifications_lang/message_from').': '.$event['handle'];
 						}
 						else if($type=='u_wall_post') {
 							$eventName = qa_lang('q2apro_onsitenotifications_lang/you_received').' ';
-							$itemIcon = '<div class="nicon nwallpost">
-											<div class="osn-svg-wrapper">
-												<svg xmlns="http://www.w3.org/2000/svg" class="osn-svg" height="28" width="28" viewbox="0 0 48 48"><path d="M9 42q-1.2 0-2.1-.9Q6 40.2 6 39V9q0-1.2.9-2.1Q7.8 6 9 6h19.7v3H9v30h30V19.3h3V39q0 1.2-.9 2.1-.9.9-2.1.9Zm7.05-7.85v-3H32v3Zm0-6.35v-3H32v3Zm0-6.35v-3H32v3ZM34.6 17.8v-4.4h-4.4v-3h4.4V6h3v4.4H42v3h-4.4v4.4Z"></path></svg>
-											</div>
-										</div>';
+							$itemIcon = '
+								<div class="osn-svg-wrapper nwallpost">
+									<svg xmlns="http://www.w3.org/2000/svg" class="osn-svg" height="28" width="28" viewbox="0 0 48 48"><path d="M9 42q-1.2 0-2.1-.9Q6 40.2 6 39V9q0-1.2.9-2.1Q7.8 6 9 6h19.7v3H9v30h30V19.3h3V39q0 1.2-.9 2.1-.9.9-2.1.9Zm7.05-7.85v-3H32v3Zm0-6.35v-3H32v3Zm0-6.35v-3H32v3ZM34.6 17.8v-4.4h-4.4v-3h4.4V6h3v4.4H42v3h-4.4v4.4Z"></path></svg>
+								</div>
+							';
 							// create link to own wall, needs handle
 							require_once QA_INCLUDE_DIR.'qa-app-posts.php';
 							$userhandle = qa_post_userid_to_handle($userid);
@@ -186,7 +204,7 @@
 						}
 						else if($type=='q2apro_osn_plugin') {
 							$eventName = ''; // Just to make compiler happy
-							$itemIcon = '<div class="nicon ' . $event['icon_class'] . '"></div>';
+							$itemIcon = '<div class="osn-svg-wrapper ' . $event['icon_class'] . '"></div>';
 							$activity_url = ''; // Just to make compiler happy
 							$linkTitle = ''; // Just to make compiler happy
 						}
@@ -235,50 +253,40 @@
 							if($type=='in_c_question' || $type=='in_c_answer' || $type=='in_c_comment') { // added in_c_comment
 								$eventName = qa_lang('q2apro_onsitenotifications_lang/in_comment');
 								$itemIcon = '
-								<div class="nicon ncomment">
-									<div class="osn-svg-wrapper">
-										<svg xmlns="http://www.w3.org/2000/svg" class="osn-svg" height="28" width="28" viewbox="0 0 50 50"><path d="M12 28h24v-3H12Zm0-6.5h24v-3H12Zm0-6.5h24v-3H12Zm32 29-8-8H7q-1.15 0-2.075-.925Q4 34.15 4 33V7q0-1.15.925-2.075Q5.85 4 7 4h34q1.2 0 2.1.925Q44 5.85 44 7ZM7 7v26h30.25L41 36.75V7H7Zm0 0v29.75V7Z"></path></svg>
-									</div>
+								<div class="osn-svg-wrapper ncomment">
+									<svg xmlns="http://www.w3.org/2000/svg" class="osn-svg" height="28" width="28" viewbox="0 0 50 50"><path d="M12 28h24v-3H12Zm0-6.5h24v-3H12Zm0-6.5h24v-3H12Zm32 29-8-8H7q-1.15 0-2.075-.925Q4 34.15 4 33V7q0-1.15.925-2.075Q5.85 4 7 4h34q1.2 0 2.1.925Q44 5.85 44 7ZM7 7v26h30.25L41 36.75V7H7Zm0 0v29.75V7Z"></path></svg>
 								</div>
 								';
 							}
 							else if($type=='in_q_vote_up' || $type=='in_a_vote_up') {
 								$eventName = qa_lang('q2apro_onsitenotifications_lang/in_upvote');
 								$itemIcon = '
-								<div class="nicon nvoteup">
-									<div class="osn-svg-wrapper">
-										<svg xmlns="http://www.w3.org/2000/svg" class="osn-svg" height="28" width="28" viewbox="12 12 25 25"><path d="m14 28 10-10.05L34 28Z"></path></svg>
-									</div>
+								<div class="osn-svg-wrapper nvoteup">
+									<svg xmlns="http://www.w3.org/2000/svg" class="osn-svg" height="28" width="28" viewbox="12 12 25 25"><path d="m14 28 10-10.05L34 28Z"></path></svg>
 								</div>
 								';
 							}
 							else if($type=='in_q_vote_down' || $type=='in_a_vote_down') {
 								$eventName = qa_lang('q2apro_onsitenotifications_lang/in_downvote');
 								$itemIcon = '
-								<div class="nicon nvotedown">
-									<div class="osn-svg-wrapper">
-										<svg xmlns="http://www.w3.org/2000/svg" class="osn-svg" height="28" width="28" viewbox="12 12 25 25"><path d="m24 30-10-9.95h20Z"></path></svg>
-									</div>
+								<div class="osn-svg-wrapper nvotedown">
+									<svg xmlns="http://www.w3.org/2000/svg" class="osn-svg" height="28" width="28" viewbox="12 14 25 25"><path d="m24 30-10-9.95h20Z"></path></svg>
 								</div>
 								';
 							}
 							else if($type=='in_a_question') {
 								$eventName = qa_lang('q2apro_onsitenotifications_lang/in_answer');
 								$itemIcon = '
-								<div class="nicon nanswer">
-									<div class="osn-svg-wrapper">
-										<svg xmlns="http://www.w3.org/2000/svg" class="osn-svg" height="28" width="28" viewBox="0 0 50 50"><path d="m2 46 3.6-12.75q-1-2.15-1.45-4.425-.45-2.275-.45-4.675 0-4.2 1.575-7.85Q6.85 12.65 9.6 9.9q2.75-2.75 6.4-4.325Q19.65 4 23.85 4q4.2 0 7.85 1.575Q35.35 7.15 38.1 9.9q2.75 2.75 4.325 6.4Q44 19.95 44 24.15q0 4.2-1.575 7.85-1.575 3.65-4.325 6.4-2.75 2.75-6.4 4.325-3.65 1.575-7.85 1.575-2.4 0-4.675-.45T14.75 42.4Zm4.55-4.55 6.9-1.9q.8-.25 1.5-.175.7.075 1.45.375 1.8.7 3.675 1.125 1.875.425 3.775.425 7.15 0 12.15-5t5-12.15Q41 17 36 12T23.85 7Q16.7 7 11.7 12t-5 12.15q0 1.95.275 3.85.275 1.9 1.275 3.6.35.7.375 1.45.025.75-.175 1.5Zm15.8-9.25h3v-6.35h6.4v-3h-6.4v-6.4h-3v6.4h-6.4v3h6.4Zm1.45-8Z"></path></svg>
-									</div>
+								<div class="osn-svg-wrapper nanswer">
+									<svg xmlns="http://www.w3.org/2000/svg" class="osn-svg" height="28" width="28" viewBox="0 0 50 50"><path d="m2 46 3.6-12.75q-1-2.15-1.45-4.425-.45-2.275-.45-4.675 0-4.2 1.575-7.85Q6.85 12.65 9.6 9.9q2.75-2.75 6.4-4.325Q19.65 4 23.85 4q4.2 0 7.85 1.575Q35.35 7.15 38.1 9.9q2.75 2.75 4.325 6.4Q44 19.95 44 24.15q0 4.2-1.575 7.85-1.575 3.65-4.325 6.4-2.75 2.75-6.4 4.325-3.65 1.575-7.85 1.575-2.4 0-4.675-.45T14.75 42.4Zm4.55-4.55 6.9-1.9q.8-.25 1.5-.175.7.075 1.45.375 1.8.7 3.675 1.125 1.875.425 3.775.425 7.15 0 12.15-5t5-12.15Q41 17 36 12T23.85 7Q16.7 7 11.7 12t-5 12.15q0 1.95.275 3.85.275 1.9 1.275 3.6.35.7.375 1.45.025.75-.175 1.5Zm15.8-9.25h3v-6.35h6.4v-3h-6.4v-6.4h-3v6.4h-6.4v3h6.4Zm1.45-8Z"></path></svg>
 								</div>
 								';
 							}
 							else if($type=='in_a_select') {
 								$eventName = qa_lang('q2apro_onsitenotifications_lang/in_bestanswer');
 								$itemIcon = '
-								<div class="nicon nbestanswer">
-									<div class="osn-svg-wrapper">
-										<svg xmlns="http://www.w3.org/2000/svg" class="osn-svg" height="28" width="28" viewBox="5 5 38 38"><path d="m20 32.1-7.65-7.65 2.1-2.1L20 27.9l13.55-13.55 2.1 2.1Z"></path></svg>
-									</div>
+								<div class="osn-svg-wrapper nbestanswer">
+									<svg xmlns="http://www.w3.org/2000/svg" class="osn-svg" height="28" width="28" viewBox="5 7 38 38"><path d="m20 32.1-7.65-7.65 2.1-2.1L20 27.9l13.55-13.55 2.1 2.1Z"></path></svg>
 								</div>
 								';
 							}
@@ -299,24 +307,61 @@
 						if($eventtime > $last_visit) {
 							$cssNewEv = '-new';
 						}
+						
+						// Check amount of points received
+						$osn_points_received = '';
+						
+						if($type=='in_q_vote_up') {
+							$osn_points_received = $points_multiple * $points_q_voted_up;
+							$osn_points_received = '<span class="osn-gained-points">+'. $osn_points_received .'</span>';
+						}
+						else if($type=='in_q_vote_down') {
+							$osn_points_received = $points_multiple * $points_q_voted_down;
+							$osn_points_received = '<span class="osn-gained-points osn-gained-points-down">-'. $osn_points_received .'</span>';
+						}
+						else if($type=='in_a_vote_up') {
+							$osn_points_received = $points_multiple * $points_a_voted_up;
+							$osn_points_received = '<span class="osn-gained-points">+'. $osn_points_received .'</span>';
+						}
+						else if($type=='in_a_vote_down') {
+							$osn_points_received = $points_multiple * $points_a_voted_down;
+							$osn_points_received = '<span class="osn-gained-points osn-gained-points-down">-'. $osn_points_received .'</span>';
+						}
+						else if($type=='in_c_vote_up') {
+							$osn_points_received = $points_multiple * $points_c_voted_up;
+							$osn_points_received = '<span class="osn-gained-points">+'. $osn_points_received .'</span>';
+						}
+						else if($type=='in_c_vote_down') {
+							$osn_points_received = $points_multiple * $points_c_voted_down;
+							$osn_points_received = '<span class="osn-gained-points osn-gained-points-down">-'. $osn_points_received .'</span>';
+						}
+						else if($type=='in_a_select') {
+							$osn_points_received = $points_multiple * $points_a_selected;
+							$osn_points_received = '<span class="osn-gained-points">+'. $osn_points_received .'</span>';
+						}
 
 						// if post has been deleted there is no link, dont output
 						if($activity_url == '' && $type !== 'q2apro_osn_plugin') {
 							continue;
 						} else {
+							
+							if($type != 'u_message') {
+								$eventName = $eventName . ' - ';
+							}
+							
 							$eventHtml = $type === 'q2apro_osn_plugin'
 								? $event['event_text']
-								: $eventName . htmlentities(' - '. $linkTitle); // Give space for phrase
-
+								: $eventName . htmlentities(' '. $linkTitle); // Give space for phrase
+							
 							$notifyBoxEvents .= 
 							'<div class="itemBox'.$cssNewEv.'">
 								<a ' . ($type == 'u_message' || $type == 'u_wall_post' ? 'title="' . $event['message'] . '" ' : '') . 'href="' . $activity_url . '"' . (qa_opt('q2apro_onsitenotifications_newwindow') ? '' : '') . '>
-									'.$itemIcon.'
+									<div class="nicon">'. $itemIcon . $osn_points_received .'</div>
 									<div class="nfyItemLine">
 										<p class="nfyWhat">
 											'.$eventHtml . '
 										</p>
-										<p class="nfyTime">'.$when.'</p>
+										<p class="nfyTime">'. $when .'</p>
 									</div>
 								</a>
 							</div>';

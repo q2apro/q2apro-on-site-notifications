@@ -34,7 +34,7 @@
 		'no_notifications_label' => 'Wenn es keine Benachrichtigungen gibt, soll dieses Zeichen angezeigt werden:', // Label for notify bubble on top, next to user name
 		'admin_maxeventsshow' => 'Maximal anzuzeigende Events im Benachrichtigungsfenster:', // extra
 		'admin_newwindow' => 'Links im Benachrichtigungsfenster im neuen Browser-Tab öffnen.', // extra
-		'admin_rtl' => 'Rechts-nach-Links (RTL) Sprache.', // extra (EN)
+		'admin_rtl' => 'Rechts-nach-Links (RTL) Sprache. (Aktivieren Sie dies für Q2A v1.7 und früher)', // extra (EN)
 
 		// plugin
 		'my_notifications' => 'Meine Benachrichtigungen',

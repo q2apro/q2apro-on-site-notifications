@@ -33,8 +33,8 @@
 		'contact' => 'For questions please visit ^1q2apro.com^2',
 		'no_notifications_label' => 'If there are no notifications, this will be displayed on the notify bubble:', // Label for notify bubble on top, next to user name
 		'admin_maxeventsshow' => 'Maximum number of events to show in notification box:', // extra
-		'admin_newwindow' => 'Open links from notification box in a new browser tab.', // extra
-		'admin_rtl' => 'Right to Left (RTL) language.', // extra (EN)
+		'admin_newwindow' => 'Open notification links in a new browser tab.', // extra
+		'admin_rtl' => 'Right to Left (RTL) language. (For Q2A v1.7 and earlier, turn this on)', // extra (EN)
 
 		// plugin
 		'my_notifications' => 'My notifications',
@@ -42,11 +42,11 @@
 		'one_notification' => '1 new notification',
 		'x_notifications' => 'new notifications',
 		'close' => 'close',
-		'in_answer' => 'Answer to',
-		'in_comment' => 'Comment to',
-		'in_bestanswer' => 'Best Answer for',
-		'in_upvote' => 'Upvote for',
-		'in_downvote' => 'Downvote for',
+		'in_answer' => 'Answer',
+		'in_comment' => 'Comment',
+		'in_bestanswer' => 'Best Answer',
+		'in_upvote' => 'Upvote',
+		'in_downvote' => 'Downvote',
 		'you_received' => 'You received a',
 		'message_from' => 'private message from',
 		'wallpost_from' => 'wall post from',
