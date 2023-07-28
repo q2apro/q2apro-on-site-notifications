@@ -372,8 +372,8 @@
 						</div>
 					</div>
 					';
-
-					header('Access-Control-Allow-Origin: '.qa_path(null));
+					
+					header('Access-Control-Allow-Origin: '.qa_path(''));
 					header("Content-type: text/html; charset=utf-8");
 					echo $notifyBoxEvents;
 
