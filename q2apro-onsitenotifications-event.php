@@ -97,7 +97,7 @@
 					$paramstring='';
 
 					foreach ($params as $key => $value) {
-						$paramstring.=(strlen($paramstring ?? '') ? "\t" : '').$key.'='.$this->value_to_text($value);
+						$paramstring.=(strlen((string) $paramstring) ? "\t" : '').$key.'='.$this->value_to_text($value);
 					}
 
 					// write in_ events to qa_eventlog
@@ -147,7 +147,7 @@
 					$paramstring='';
 
 					foreach ($params as $key => $value)
-						$paramstring.=(strlen($paramstring ?? '') ? "\t" : '').$key.'='.$this->value_to_text($value);
+						$paramstring.=(strlen((string) $paramstring) ? "\t" : '').$key.'='.$this->value_to_text($value);
 
 					qa_db_query_sub(
 						'INSERT INTO ^eventlog (datetime, ipaddress, userid, handle, cookieid, event, params) '.
@@ -178,7 +178,7 @@
 
 							$paramstring = '';
 							foreach ($params as $key => $value) {
-								$paramstring .= (strlen($paramstring ?? '') ? "\t" : '').$key.'='.$this->value_to_text($value);
+								$paramstring .= (strlen((string) $paramstring) ? "\t" : '').$key.'='.$this->value_to_text($value);
 							}
 
 							qa_db_query_sub(
@@ -198,12 +198,12 @@
 		function value_to_text($value) {
 			if (is_array($value))
 				$text='array('.count($value).')';
-			elseif (strlen($value ?? '')>40)
+			elseif (strlen((string) $value) > 40)
 				$text=substr($value, 0, 38).'...';
 			else
 				$text=$value;
 
-			return strtr($text, "\t\n\r", '   ');
+			return strtr((string) $text, "\t\n\r", '   ');
 		}
 
 	} // end class

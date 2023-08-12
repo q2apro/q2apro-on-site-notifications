@@ -355,7 +355,7 @@
 							
 							$notifyBoxEvents .= 
 							'<div class="itemBox'.$cssNewEv.'">
-								<a ' . ($type == 'u_message' || $type == 'u_wall_post' ? 'title="' . $event['message'] . '" ' : '') . 'href="' . $activity_url . '"' . (qa_opt('q2apro_onsitenotifications_newwindow') ? '' : '') . '>
+								<a ' . ($type == 'u_message' || $type == 'u_wall_post' ? 'title="' . $event['message'] . '" ' : '') . 'href="' . $activity_url . '"' . (qa_opt('q2apro_onsitenotifications_newwindow') ? ' target="_blank"' : '') . '>
 									<div class="nicon">'. $itemIcon . $osn_points_received .'</div>
 									<div class="nfyItemLine">
 										<p class="nfyWhat">
