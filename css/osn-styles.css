@@ -102,6 +102,7 @@
     display: block;
     margin-top: -12px;
     color: #00ab78;
+	font-size: 13px;
 }
 .osn-gained-points-down {
     color: #cc0000;
