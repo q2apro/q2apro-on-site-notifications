@@ -57,8 +57,8 @@
 				');
 				
 				$this->output('
-					<link rel="preload" as="style" href="'.QA_HTML_THEME_LAYER_URLTOROOT.'css/osn-styles.min.css?v=41" onload="this.onload=null;this.rel=\'stylesheet\'">
-					<noscript><link rel="stylesheet" href="'.QA_HTML_THEME_LAYER_URLTOROOT.'css/osn-styles.min.css?v=41"></noscript>
+					<link rel="preload" as="style" href="'.QA_HTML_THEME_LAYER_URLTOROOT.'css/osn-styles.min.css?v=42" onload="this.onload=null;this.rel=\'stylesheet\'">
+					<noscript><link rel="stylesheet" href="'.QA_HTML_THEME_LAYER_URLTOROOT.'css/osn-styles.min.css?v=42"></noscript>
 				');
 
 				// hack for snow theme (q2a v1.6) to position the notification box more to the right
@@ -116,25 +116,11 @@
 					var eventnotifyAjaxURL = "'.qa_path('eventnotify').'";
 				</script>
 				');
-				$this->output('<script type="text/javascript" src="'.QA_HTML_THEME_LAYER_URLTOROOT.'js/script.js?v=32"></script>');
-
-				// hack for snow flat theme (q2a v1.7) to show the notification icon outside the user's drop down
-				if(qa_opt('site_theme')=='SnowFlat') {
-					$this->output('
-					<script type="text/javascript">
-						// On Site Notifications - Q2A
-						$(document).ready(function(){
-							// $("#osnbox").detach().appendTo(".qam-account-items-wrapper");
-							var elem = $("#osnbox").detach();
-							$(".qam-account-items-wrapper").prepend(elem);
-						});
-					</script>
-					');
-				}
+				$this->output('<script type="text/javascript" src="'.QA_HTML_THEME_LAYER_URLTOROOT.'js/script.js?v=34"></script>');
 			}
 		}
 
-		function doctype() {
+		function nav_user_search() {
 			/* The following code originates from q2a plugin "History" by NoahY and has been modified by q2apro.com
 			 * It is licensed under GPLv3 http://www.gnu.org/licenses/gpl.html
 			 * Link to plugin: https://github.com/NoahY/q2a-history
@@ -170,11 +156,19 @@
 						</div>';
 
 				// add to user panel
-				$this->content['loggedin']['suffix'] = @$this->content['loggedin']['suffix']. ' ' . $html;
+				if(qa_opt('site_theme')=='Snow' || qa_opt('site_theme')=='Classic' || qa_opt('site_theme')=='Candy') {
+					// Fix for old themes
+					$this->content['loggedin']['suffix'] = @$this->content['loggedin']['suffix']. ' ' . $html;
+				} else {
+					// Output normal - Modern themes
+					$this->output($html);
+				}
 			}
 
-			qa_html_theme_base::doctype();
+			qa_html_theme_base::nav_user_search();
 		}
+		
+		
 
 		/**
 		 * @param int $last_visit

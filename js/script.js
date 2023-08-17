@@ -24,10 +24,10 @@
 
 $(document).ready(function(){
 
-	$(document).on('click', '#nfyReadClose', function() {
+	$('body').on('click', '#nfyReadClose', function() {
 		$('#nfyWrap').remove();
 	});
-	$('.osn-new-events-link').click(function() {
+	$('body').on('click', '.osn-new-events-link', function() {
 		// user clicked on N bubble again to hide event-box
 		if( $('#nfyWrap').length>0 && $('#nfyWrap').is(':visible') ) {
 			$('#nfyWrap').remove();
