@@ -123,12 +123,13 @@
 							$event['handle'] = qa_post_userid_to_handle($event['userid']);
 
 							// get message preview by cutting out the string
-							$event['message'] = substr($ustring,strpos($ustring,'message=')+8, strlen($ustring ?? '')-strpos($ustring,'message=')+8);
+							$event['message'] = qa_html( substr($ustring,strpos($ustring,'message=')+8, strlen($ustring ?? '')-strpos($ustring,'message=')+8) );
 
 							$events[$m[1].'_'.$count++] = $event;
 						}
 						// wall post
-						else if($event['event']=='u_wall_post') {
+						else if ($event['event']=='u_wall_post') 
+						{
 							// example of $event['params']: userid=1	handle=admin	messageid=8	content=hi admin!	format=	text=hi admin!
 							$ustring = $event['params'];
 
@@ -143,11 +144,12 @@
 							$event['handle'] = qa_post_userid_to_handle($event['userid']);
 
 							// get message preview by cutting out the string
-							$event['message'] = substr($ustring,strpos($ustring,'text=')+5, strlen($ustring ?? '')-strpos($ustring,'text=')+5);
+							$event['message'] = qa_html( substr($ustring,strpos($ustring,'text=')+5, strlen($ustring ?? '')-strpos($ustring,'text=')+5) );
 
 							$events[$m[1].'_'.$count++] = $event;
 						}
-						else if($event['event'] === 'q2apro_osn_plugin') {
+						else if ($event['event'] === 'q2apro_osn_plugin') 
+						{
 							$events['_' . $count++] = $event;
 						}
 					}
@@ -174,21 +176,29 @@
 							<div id="nfyContainerInbox">
 						';
 
-					foreach($events as $postid_string => $event) {
+					foreach ($events as $postid_string => $event)
+					{
 						// $postid_string, e.g. 32_1 (32 is postid, 1 is global event count)
 						$type = $event['event'];
 
-						if($type=='u_message') {
+						$eventName = '';
+						$itemIcon = '';
+						$activity_url = '';
+						$linkTitle = '';
+						
+						if ($type == 'u_message') 
+						{
 							$eventName = qa_lang('q2apro_onsitenotifications_lang/you_received').' ';
 							$itemIcon = '
 								<div class="osn-svg-wrapper nmessage">
 									<svg xmlns="http://www.w3.org/2000/svg" class="osn-svg" height="28" width="28" viewbox="0 0 48 48"><path d="M7 40q-1.2 0-2.1-.9Q4 38.2 4 37V11q0-1.2.9-2.1Q5.8 8 7 8h34q1.2 0 2.1.9.9.9.9 2.1v26q0 1.2-.9 2.1-.9.9-2.1.9Zm17-15.1L7 13.75V37h34V13.75Zm0-3L40.8 11H7.25ZM7 13.75V11v26Z"></path></svg>
 								</div>
 							';
-							$activity_url = qa_path_absolute('message').'/'.$event['handle'];
-							$linkTitle = qa_lang('q2apro_onsitenotifications_lang/message_from').': '.$event['handle'];
+							$activity_url = qa_path_absolute('message').'/'.qa_html($event['handle']);
+							$linkTitle = qa_lang('q2apro_onsitenotifications_lang/message_from').': '.qa_html($event['handle']);
 						}
-						else if($type=='u_wall_post') {
+						else if ($type=='u_wall_post') 
+						{
 							$eventName = qa_lang('q2apro_onsitenotifications_lang/you_received').' ';
 							$itemIcon = '
 								<div class="osn-svg-wrapper nwallpost">
@@ -198,17 +208,18 @@
 							// create link to own wall, needs handle
 							require_once QA_INCLUDE_DIR.'qa-app-posts.php';
 							$userhandle = qa_post_userid_to_handle($userid);
-							// from v1.7 require_once QA_INCLUDE_DIR.'qa-app-users.php'; and qa_userid_to_handle($userid);
-							$activity_url = qa_path_absolute('user').'/'.$userhandle.'/wall';
-							$linkTitle = qa_lang('q2apro_onsitenotifications_lang/wallpost_from').' '.$event['handle'];
+							$activity_url = qa_path_absolute('user').'/'.qa_html($userhandle).'/wall';
+							$linkTitle = qa_lang('q2apro_onsitenotifications_lang/wallpost_from').' '.qa_html($event['handle']);
 						}
-						else if($type=='q2apro_osn_plugin') {
-							$eventName = ''; // Just to make compiler happy
+						else if ($type=='q2apro_osn_plugin') 
+						{
+							$eventName = '';
 							$itemIcon = '<div class="osn-svg-wrapper ' . $event['icon_class'] . '"></div>';
-							$activity_url = ''; // Just to make compiler happy
-							$linkTitle = ''; // Just to make compiler happy
+							$activity_url = '';
+							$linkTitle = '';
 						}
-						else {
+						else 
+						{
 							// a_post, c_post, q_vote_up, a_vote_up, q_vote_down, a_vote_down
 							$postid = preg_replace('/_.*/','', $postid_string);
 
@@ -221,13 +232,17 @@
 							$linkTitle = '';
 
 							// comment or answer
-							if(isset($post) && strpos($event['event'],'q_') !== 0 && strpos($event['event'],'in_q_') !== 0) {
-								if(!isset($params['parentid'])) {
+							if (isset($post) && strpos($event['event'],'q_') !== 0 && strpos($event['event'],'in_q_') !== 0) 
+							{
+								if (!isset($params['parentid'])) 
+								{
 									$params['parentid'] = $post['parentid'];
 								}
 
 								$parent = qa_db_select_with_pending(qa_db_full_post_selectspec($userid, $params['parentid']));
-								if($parent['type'] === 'A') {
+								
+								if ($parent['type'] === 'A') 
+								{
 									$parent = qa_db_select_with_pending(qa_db_full_post_selectspec($userid, $parent['parentid']));
 								}
 
@@ -235,15 +250,22 @@
 								$activity_url = qa_q_path($parent['postid'], $parent['title'], true, strpos($event['event'],'in_a_') === 0?'A':'C', $params['postid']);
 								$linkTitle = $parent['title'];
 							}
-							else if(isset($post)) { // question
-								if(!isset($params['title'])) {
+							// question
+							else if (isset($post)) 
+							{
+								if (!isset($params['title'])) 
+								{
 									$params['title'] = $posts[$params['postid']]['title'];
 								}
-								if($params['title'] !== null) {
+								if ($params['title'] !== null) 
+								{
 									$qTitle = qa_db_read_one_value( qa_db_query_sub("SELECT title FROM `^posts` WHERE `postid` = ".$params['postid']." LIMIT 1"), true );
-									if (!isset($qTitle)) {
+									
+									if (!isset($qTitle)) 
+									{
 										$qTitle = '';
 									}
+									
 									$activity_url = qa_path_absolute(qa_q_request($params['postid'], $qTitle), null, null);
 									$linkTitle = $qTitle;
 								}
@@ -300,18 +322,22 @@
 						$eventtime = $event['datetime'];
 
 						$whenhtml = qa_html(qa_time_to_string(qa_opt('db_time')-$eventtime));
+						
 						$when = qa_lang_html_sub('main/x_ago', $whenhtml);
 
 						// extra CSS for highlighting new events
 						$cssNewEv = '';
-						if($eventtime > $last_visit) {
+						
+						if ($eventtime > $last_visit) 
+						{
 							$cssNewEv = '-new';
 						}
 						
 						// Check amount of points received
 						$osn_points_received = '';
 						
-						if($type=='in_q_vote_up') {
+						if ($type == 'in_q_vote_up')
+						{
 							$osn_points_received = $points_multiple * $points_q_voted_up;
 							$osn_points_received = '<span class="osn-gained-points">+'. $osn_points_received .'</span>';
 						}
@@ -341,21 +367,24 @@
 						}
 
 						// if post has been deleted there is no link, dont output
-						if($activity_url == '' && $type !== 'q2apro_osn_plugin') {
+						if ($activity_url == '' && $type !== 'q2apro_osn_plugin')
+						{
 							continue;
-						} else {
-							
-							if($type != 'u_message') {
+						}
+						else 
+						{							
+							if ($type != 'u_message') 
+							{
 								$eventName = $eventName . ' - ';
 							}
 							
 							$eventHtml = $type === 'q2apro_osn_plugin'
 								? $event['event_text']
-								: $eventName . htmlentities(' '. $linkTitle); // Give space for phrase
+								: $eventName . qa_html(' '. $linkTitle); // Give space for phrase
 							
 							$notifyBoxEvents .= 
 							'<div class="itemBox'.$cssNewEv.'">
-								<a ' . ($type == 'u_message' || $type == 'u_wall_post' ? 'title="' . $event['message'] . '" ' : '') . 'href="' . $activity_url . '"' . (qa_opt('q2apro_onsitenotifications_newwindow') ? ' target="_blank"' : '') . '>
+								<a ' . ($type == 'u_message' || $type == 'u_wall_post' ? 'title="' . qa_html($event['message']) . '" ' : '') . 'href="' . $activity_url . '"' . (qa_opt('q2apro_onsitenotifications_newwindow') ? ' target="_blank"' : '') . '>
 									<div class="nicon">'. $itemIcon . $osn_points_received .'</div>
 									<div class="nfyItemLine">
 										<p class="nfyWhat">
