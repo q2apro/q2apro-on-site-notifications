@@ -250,7 +250,6 @@ class q2apro_onsitenotifications_page
 							$anchor = qa_anchor((strpos($event['event'],'a_') === 0 || strpos($event['event'],'in_a_') === 0?'A':'C'), $params['postid']);
 							$activity_url = qa_q_path($parent['postid'], $parent['title'], true, strpos($event['event'],'in_a_') === 0?'A':'C', $params['postid']);
 							$linkTitle = $parent['title'];
-							
 						}
 						// question
 						else if (isset($post)) 
