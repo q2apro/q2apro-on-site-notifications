@@ -4,7 +4,7 @@
 
 ## Description ##
 
-Facebook-like / Stackoverflow-like notifications on your [Question2Answer](http://www.question2answer.org/) forum that can replace all email-notifications.
+Stackoverflow-like notifications on your [Question2Answer](http://www.question2answer.org/) forum that can replace all email-notifications.
 
 
 ## Features ##
@@ -17,14 +17,10 @@ Facebook-like / Stackoverflow-like notifications on your [Question2Answer](http:
 - lightweight plugin that does not need any extra server resources
 - available languages: de, en, fr, lt
 
-Do something good for your users and improve their usability experience in your forum!
-
-See [demo video here](https://www.youtube.com/watch?v=C86rdJkGP3k).
-
 
 ## Installation ##
 
-See quick [video tutorial for installation](https://www.youtube.com/watch?feature=player_detailpage&v=C86rdJkGP3k#t=90) or follow these steps:
+Follow these steps:
 
 - Download the plugin as ZIP from [github](https://github.com/q2apro/q2apro-on-site-notifications).
 - Make a full backup of your q2a database before installing the plugin.
@@ -58,7 +54,7 @@ qa_report_event('q2apro_osn_plugin', qa_get_logged_in_userid(), qa_get_logged_in
 
 ## Disclaimer ##
 
-The code is probably okay for production environments, but may not work exactly as expected. You bear the risk. Refunds will not be given!
+The code is probably okay for production environments, but may not work exactly as expected. You bear the risk.
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
 without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
@@ -67,15 +63,6 @@ See the GNU General Public License for more details.
 
 ## Copyright ##
 
-All code herein is [OpenSource](http://www.gnu.org/licenses/gpl.html). Feel free to build upon it and share with the world.
+All code herein is [OpenSource](http://www.gnu.org/licenses/gpl.html). 
+Feel free to build upon it and share with the world.
 
-
-## Final Note ##
-
-If you use the plugin:
-
-  * Translate the plugin into your language.
-  * Report any bug you find.
-  * Consider a painless donation to https://www.paypal.me/q2apro
-
-Have fun! Life is short.

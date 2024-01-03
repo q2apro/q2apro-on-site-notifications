@@ -47,9 +47,12 @@
 		'in_bestanswer' => 'Best Answer',
 		'in_upvote' => 'Upvote',
 		'in_downvote' => 'Downvote',
-		'you_received' => 'You received a',
-		'message_from' => 'private message from',
-		'wallpost_from' => 'wall post from',
+		'you_received' => 'on:',
+		'you_received_on_question' => 'on your question:',
+		'you_received_on_answer' => 'on your answer:',
+		'you_received_on_comment' => 'on your comment:',
+		'message_from' => 'sent you a private message:',
+		'wallpost_from' => 'posted on your wall:',
 	);
 
 
