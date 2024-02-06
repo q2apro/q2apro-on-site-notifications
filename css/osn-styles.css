@@ -211,3 +211,17 @@
 	fill: #ffffff;
 }
 
+@media (max-width: 600px) {
+	.nfyWrap {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		width: 100%;
+	}
+	.nfyWrap .nfyContainer {
+		max-height: calc(100vh - 46px);
+		padding-bottom: 10rem;
+	}
+}

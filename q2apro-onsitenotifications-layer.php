@@ -57,8 +57,8 @@
 				');
 				
 				$this->output('
-					<link rel="preload" as="style" href="'.QA_HTML_THEME_LAYER_URLTOROOT.'css/osn-styles.min.css?v=42" onload="this.onload=null;this.rel=\'stylesheet\'">
-					<noscript><link rel="stylesheet" href="'.QA_HTML_THEME_LAYER_URLTOROOT.'css/osn-styles.min.css?v=42"></noscript>
+					<link rel="preload" as="style" href="'.QA_HTML_THEME_LAYER_URLTOROOT.'css/osn-styles.min.css?v=44" onload="this.onload=null;this.rel=\'stylesheet\'">
+					<noscript><link rel="stylesheet" href="'.QA_HTML_THEME_LAYER_URLTOROOT.'css/osn-styles.min.css?v=44"></noscript>
 				');
 
 				// hack for snow theme (q2a v1.6) to position the notification box more to the right

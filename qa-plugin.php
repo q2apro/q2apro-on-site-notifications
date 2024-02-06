@@ -3,10 +3,10 @@
 	Plugin Name: On-Site-Notifications
 	Plugin URI: 
 	Plugin Description: Facebook-like / Stackoverflow-like notifications on your question2answer forum that can replace all email-notifications.
-	Plugin Version: 1.4.7
-	Plugin Date: 2023-08-27
-	Plugin Author: q2apro
-	Plugin Author URI: q2apro
+	Plugin Version: 1.4.8
+	Plugin Date: 2024-01-01
+	Plugin Author: q2apro and contributors
+	Plugin Author URI: https://github.com/q2apro/q2apro-on-site-notifications/graphs/contributors
 	Plugin License: GPLv3
 	Plugin Minimum Question2Answer Version: 1.6
 	Plugin Update Check URI: 
