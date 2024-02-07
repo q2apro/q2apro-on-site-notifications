@@ -188,18 +188,19 @@ class q2apro_onsitenotifications_page
 					
 					if ($type == 'u_message') 
 					{
-						$eventName = qa_lang('q2apro_onsitenotifications_lang/you_received').' ';
+						// $eventName = qa_lang('q2apro_onsitenotifications_lang/you_received').' ';
+						$eventName = qa_html($event['handle']);
 						$itemIcon = '
 							<div class="osn-svg-wrapper nmessage">
 								<svg xmlns="http://www.w3.org/2000/svg" class="osn-svg" height="28" width="28" viewbox="0 0 48 48"><path d="M7 40q-1.2 0-2.1-.9Q4 38.2 4 37V11q0-1.2.9-2.1Q5.8 8 7 8h34q1.2 0 2.1.9.9.9.9 2.1v26q0 1.2-.9 2.1-.9.9-2.1.9Zm17-15.1L7 13.75V37h34V13.75Zm0-3L40.8 11H7.25ZM7 13.75V11v26Z"></path></svg>
 							</div>
 						';
 						$activity_url = qa_path_absolute('message').'/'.qa_html($event['handle']);
-						$linkTitle = qa_lang('q2apro_onsitenotifications_lang/message_from').': '.qa_html($event['handle']);
+						$linkTitle = qa_lang('q2apro_onsitenotifications_lang/message_from');
 					}
 					else if ($type=='u_wall_post') 
 					{
-						$eventName = qa_lang('q2apro_onsitenotifications_lang/you_received').' ';
+						$eventName = qa_html($event['handle']);
 						$itemIcon = '
 							<div class="osn-svg-wrapper nwallpost">
 								<svg xmlns="http://www.w3.org/2000/svg" class="osn-svg" height="28" width="28" viewbox="0 0 48 48"><path d="M9 42q-1.2 0-2.1-.9Q6 40.2 6 39V9q0-1.2.9-2.1Q7.8 6 9 6h19.7v3H9v30h30V19.3h3V39q0 1.2-.9 2.1-.9.9-2.1.9Zm7.05-7.85v-3H32v3Zm0-6.35v-3H32v3Zm0-6.35v-3H32v3ZM34.6 17.8v-4.4h-4.4v-3h4.4V6h3v4.4H42v3h-4.4v4.4Z"></path></svg>
@@ -209,7 +210,7 @@ class q2apro_onsitenotifications_page
 						require_once QA_INCLUDE_DIR.'qa-app-posts.php';
 						$userhandle = qa_post_userid_to_handle($userid);
 						$activity_url = qa_path_absolute('user').'/'.qa_html($userhandle).'/wall';
-						$linkTitle = qa_lang('q2apro_onsitenotifications_lang/wallpost_from').' '.qa_html($event['handle']);
+						$linkTitle = qa_lang('q2apro_onsitenotifications_lang/wallpost_from');
 					}
 					else if ($type=='q2apro_osn_plugin') 
 					{
@@ -269,6 +270,22 @@ class q2apro_onsitenotifications_page
 								$activity_url = qa_path_absolute(qa_q_request($params['postid'], $qTitle), null, null);
 								$linkTitle = $qTitle;
 							}
+						}
+						
+						// Check what type of post Question/Answer/Comment to handle targetted translation
+						if (strpos($type,'q_') === 0 
+						|| strpos($type,'in_q_vote') === 0 
+						|| strpos($type,'in_a_question') === 0
+						|| strpos($type,'in_c_question') === 0)
+						{
+							$eventTypeText = qa_lang('q2apro_onsitenotifications_lang/you_received_on_question');
+						}
+						else if (strpos($type,'in_a_vote') === 0 || strpos($type,'in_c_answer') === 0) {
+							$eventTypeText = qa_lang('q2apro_onsitenotifications_lang/you_received_on_answer');
+						} else if (strpos($type,'in_c_vote') === 0) {
+							$eventTypeText = qa_lang('q2apro_onsitenotifications_lang/you_received_on_comment');
+						} else {
+							$eventTypeText = qa_lang('q2apro_onsitenotifications_lang/you_received');
 						}
 
 						// event name
@@ -367,28 +384,35 @@ class q2apro_onsitenotifications_page
 					}
 
 					// if post has been deleted there is no link, dont output
-					if ($activity_url == '' && $type !== 'q2apro_osn_plugin')
+					// if own Wall Post, dont output
+					if ($activity_url == '' && $type !== 'q2apro_osn_plugin' 
+					|| $type == 'u_wall_post' && qa_post_userid_to_handle($event['userid']) == qa_get_logged_in_user_field('handle'))
 					{
 						continue;
 					}
 					else 
 					{							
-						if ($type != 'u_message') 
+						
+						// Add Boldness to the first word/username
+						if ($type != 'u_message' && $type != 'u_wall_post')
 						{
-							$eventName = $eventName . ' - ';
+							$eventName = '<b>'.$eventName.'</b> ' . $eventTypeText;
+						} else {
+							$eventName = '<b>'.$eventName.'</b>';
 						}
 						
 						$eventHtml = $type === 'q2apro_osn_plugin'
 							? $event['event_text']
 							: $eventName . qa_html(' '. $linkTitle); // Give space for phrase
 						
+						
 						$notifyBoxEvents .= 
 						'<div class="itemBox'.$cssNewEv.'">
-							<a ' . ($type == 'u_message' || $type == 'u_wall_post' ? 'title="' . qa_html($event['message']) . '" ' : '') . 'href="' . $activity_url . '"' . (qa_opt('q2apro_onsitenotifications_newwindow') ? ' target="_blank"' : '') . '>
+							<a href="' . $activity_url . '"' . (qa_opt('q2apro_onsitenotifications_newwindow') ? ' target="_blank"' : '') . '>
 								<div class="nicon">'. $itemIcon . $osn_points_received .'</div>
 								<div class="nfyItemLine">
 									<p class="nfyWhat">
-										'.$eventHtml . '
+										'. $eventHtml . ($type == 'u_message' || $type == 'u_wall_post' ? ' ' . qa_html($event['message']) : '') .'
 									</p>
 									<p class="nfyTime">'. $when .'</p>
 								</div>
